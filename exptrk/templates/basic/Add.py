@@ -1,5 +1,7 @@
-from PyQt5.QtWidgets import QLabel, QDialog, QDoubleSpinBox, QComboBox, QTextEdit, QPushButton, QHBoxLayout, QVBoxLayout
+from PyQt5.QtWidgets import QLabel, QDialog, QDoubleSpinBox, QComboBox, QLineEdit, QPushButton, QHBoxLayout, QVBoxLayout
 from PyQt5.QtGui import QIcon
+
+from exptrk.utils.read_index import read_index
 
 from exptrk.const import DAYS, MONTHS, YEARS, FIELD_NAMES, TYPES_OF_FLOWS
 
@@ -86,15 +88,8 @@ class Add_Window(QDialog):
 
         # Description
 
-        self.descr_label = QLabel("Description:")
-
-        self.descr = QTextEdit(self)
-        self.descr.setFixedHeight(60)
-        self.descr.setFixedWidth(200)
-
-        self.descr_layout = QHBoxLayout()
-        self.descr_layout.addWidget(self.descr_label)
-        self.descr_layout.addWidget(self.descr)
+        self.descr = QLineEdit(self)
+        self.descr.setPlaceholderText("Description / Name")
 
         # ----------------------------
 
@@ -110,7 +105,7 @@ class Add_Window(QDialog):
         self.root.addLayout(self.day_layout)
         self.root.addLayout(self.month_layout)
         self.root.addLayout(self.year_layout)
-        self.root.addLayout(self.descr_layout)
+        self.root.addWidget(self.descr)
         self.root.addWidget(self.add)
 
         self.setWindowIcon(QIcon("assets/create.png"))
@@ -124,11 +119,11 @@ class Add_Window(QDialog):
         day = self.day.currentText()
         month = self.month.currentText()
         year = self.year.currentText()
-        descr = self.descr.toPlainText()
+        descr = self.descr.text()
 
         file = f"./.data/{self.type.currentText()}s.csv"
 
-        with open(file, "a") as f: 
+        with open(read_index(self.type.currentText().lower()), "a") as f: 
             writer = csv.DictWriter(f, fieldnames=FIELD_NAMES, lineterminator="\n")
 
             data = {

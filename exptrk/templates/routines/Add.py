@@ -2,6 +2,7 @@ from PyQt5.QtWidgets import QDialog, QPushButton, QComboBox, QLineEdit, QTextEdi
 from PyQt5.QtGui import QIcon
 
 from exptrk.utils.get_categorys import get_categorys
+from exptrk.utils.read_index import read_index
 
 from exptrk.const import ROUTINES, TYPES_OF_FLOWS
 
@@ -122,14 +123,14 @@ class Add_Window(QDialog):
         selected_type = self.type_money_box.currentText()
         description = self.descr.toPlainText()
 
-        with open("./.data/user.json", "r") as f: 
+        with open(read_index("user"), "r") as f: 
             parsed = json.load(f)
             f.close()
 
-        with open("./.data/user.json", "w") as f: 
+        with open(read_index("user"), "w") as f: 
             f.close()
 
-        with open("./.data/user.json", "w") as f: 
+        with open(read_index("user"), "w") as f: 
             parsed[f"{type_money}s"][name] = {"Name": name, "Amount": amount, "Repeated" : repeat, "Type": selected_type, "Description": description}
 
             json.dump(parsed, f, indent=4, sort_keys=False)

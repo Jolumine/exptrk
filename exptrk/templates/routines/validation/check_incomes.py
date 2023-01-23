@@ -1,3 +1,5 @@
+from exptrk.utils.read_index import read_index
+
 from exptrk.const import FIELD_NAMES, MONTHS
 
 from datetime import datetime
@@ -7,7 +9,7 @@ import json
 
 def get_routines_adapted(type:str) -> list[str]:
     result = []
-    with open("./.data/user.json", "r") as f: 
+    with open(read_index("user"), "r") as f: 
         parsed = json.load(f)
         f.close()
 
@@ -22,7 +24,7 @@ def is_existing(source) -> bool:
     routine = splitted[2]
     erg = False
 
-    reader = csv.DictReader(open("./.data/incomes.csv", "r"), fieldnames=FIELD_NAMES)
+    reader = csv.DictReader(open(read_index("income"), "r"), fieldnames=FIELD_NAMES)
 
     if routine == "daily":
         for row in reader: 
@@ -69,7 +71,7 @@ def check_incomes() -> None:
         if is_existing(source):
             pass
         else: 
-            file = "./.data/incomes.csv"
+            file = read_index("income")
             with open(file, "a") as f: 
                 writer = csv.DictWriter(f, fieldnames=FIELD_NAMES, delimiter=",", lineterminator="\n")
 

@@ -6,6 +6,7 @@ from exptrk.templates.dialogs.Confirm import Confirm
 
 from exptrk.utils.get_currency import get_currency
 from exptrk.utils.get_categorys import get_categorys
+from exptrk.utils.read_index import read_index
 from exptrk.const import CURRENCYS
 
 import json
@@ -14,8 +15,8 @@ class Settings(QDialog):
     def __init__(self, parent=None):
         super().__init__(parent)
 
-        self.settings = "./.data/settings.json"
-        self.user = "./.data/user.json"
+        self.settings = read_index("settings")
+        self.user = read_index("user")
 
         self.currency_label = QLabel("Currency")
 

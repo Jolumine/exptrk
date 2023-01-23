@@ -10,7 +10,7 @@ import sys
 def main(): 
     app = QApplication(sys.argv)
 
-    if Setup.check(Setup.ROOT): 
+    if Setup.check("./.data/"): 
         pass
     else: 
         setup = Setup()

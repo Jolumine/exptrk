@@ -1,9 +1,10 @@
 import json 
 
+from exptrk.utils.read_index import read_index
 
 def get_routines(type:str) -> list[str]:
     result = []
-    with open("./.data/user.json", "r") as f: 
+    with open(read_index("user"), "r") as f: 
         parsed = json.load(f)
         f.close()
 

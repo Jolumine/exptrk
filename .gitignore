@@ -13,6 +13,7 @@ __pycache__/
 # User data 
 
 .data/
+*.json
 
 # Distribution / packaging
 .Python

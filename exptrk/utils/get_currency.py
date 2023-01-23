@@ -1,5 +1,6 @@
 import json 
 
+from exptrk.utils.read_index import read_index
 
 def get_currency() -> str: 
-    return (json.load(open("./.data/settings.json", "r"))["currency"].split("/")[0], json.load(open("./.data/settings.json", "r"))["currency"].split("/")[1])
+    return (json.load(open(read_index("settings"), "r"))["currency"].split("/")[0], json.load(open(read_index("settings"), "r"))["currency"].split("/")[1])

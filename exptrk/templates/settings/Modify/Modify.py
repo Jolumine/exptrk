@@ -1,6 +1,8 @@
 from PyQt5.QtWidgets import QDialog, QLineEdit, QPushButton, QVBoxLayout
 from PyQt5.QtGui import QIcon
 
+from exptrk.utils.read_index import read_index
+
 import json
 
 
@@ -8,7 +10,7 @@ class Modify_Window(QDialog):
     def __init__(self, parent=None):
         super().__init__(parent)
 
-        self.file = "./.data/user.json"
+        self.file = read_index("user")
 
         with open(self.file, "r") as f: 
             parsed = json.load(f)

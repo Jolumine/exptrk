@@ -1,6 +1,8 @@
 import csv 
 import json
 
+from exptrk.utils.read_index import read_index
+
 from exptrk.const import FIELD_NAMES
 
 
@@ -9,7 +11,7 @@ class Statistics:
     def get_income_sum(month="") -> float:
         if month != "": 
             sum = 0.0
-            with open("./.data/incomes.csv", "r") as f:
+            with open(read_index("income"), "r") as f:
                 reader = csv.DictReader(f, fieldnames=FIELD_NAMES)
                 for row in reader: 
                     if row["Amount"] == "Amount":
@@ -24,7 +26,7 @@ class Statistics:
             return sum
         else: 
             sum = 0.0
-            with open("./.data/incomes.csv", "r") as f:
+            with open(read_index("income"), "r") as f:
                 reader = csv.DictReader(f, fieldnames=FIELD_NAMES)
                 for row in reader:  
                     if row["Amount"] == "Amount": 
@@ -39,7 +41,7 @@ class Statistics:
     def get_expenses_sum(month="") -> float:
         if month != "":
             sum = 0.0
-            with open("./.data/expenses.csv", "r") as f:
+            with open(read_index("expense"), "r") as f:
                 reader = csv.DictReader(f, fieldnames=FIELD_NAMES)
                 for row in reader: 
                     if row["Amount"] == "Amount":
@@ -53,7 +55,7 @@ class Statistics:
             return sum
         else: 
             sum = 0.0
-            with open("./.data/expenses.csv", "r") as f:
+            with open(read_index("expense"), "r") as f:
                 reader = csv.DictReader(f, fieldnames=FIELD_NAMES)
                 for row in reader:     
                     if row["Amount"] == "Amount":
@@ -67,7 +69,7 @@ class Statistics:
     @staticmethod
     def get_sum_passive_in() -> float:
         sum = 0.0
-        with open("./.data/user.json", "r") as f:
+        with open(read_index("user"), "r") as f:
             parsed = json.load(f)
             f.close()
 
@@ -79,7 +81,7 @@ class Statistics:
     @staticmethod
     def get_sum_passive_exp() -> float:
         sum = 0.0
-        with open("./.data/user.json", "r") as f:
+        with open(read_index("user"), "r") as f:
             parsed = json.load(f)
             f.close()
 

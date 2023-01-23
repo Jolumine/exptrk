@@ -58,7 +58,7 @@ class Welcome_Interface(QDialog):
                 "Firstname": fname, 
                 "Lastname": lname, 
                 "Company": com,
-                "Categorys": ["Rent", "Subscription", "Salary", "Repayment"],
+                "Categorys": ["Rent", "Subscription", "Salary", "Repayment", "Purchase"],
                 "Expenses": {},
                 "Incomes": {}
             }

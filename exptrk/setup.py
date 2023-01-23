@@ -30,6 +30,17 @@ class Setup:
                 json.dump(settings, f, indent=4, sort_keys=False)
                 f.close()
 
+            with open(f"index.json", "w") as f: 
+                index = {
+                    "user": os.path.join(os.path.abspath(self.ROOT), "user.json"), 
+                    "expense": os.path.join(os.path.abspath(self.ROOT), "expenses.csv"), 
+                    "income": os.path.join(os.path.abspath(self.ROOT), "incomes.csv"), 
+                    "settings": os.path.join(os.path.abspath(self.ROOT), "settings.json"),
+                    "logs": os.path.join(os.path.abspath(self.ROOT), "logs.log")
+                }
+                json.dump(index, f, indent=4, sort_keys=False)
+                f.close()
+
     @staticmethod
     def get_os() -> str:
         return platform.system()

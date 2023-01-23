@@ -6,6 +6,7 @@ from exptrk.templates.routines.Add import Add_Window
 from exptrk.templates.dialogs.Confirm import Confirm
 
 from exptrk.utils.get_routines import get_routines
+from exptrk.utils.read_index import read_index
 from exptrk.const import TYPES_OF_FLOWS
 
 import json
@@ -79,17 +80,17 @@ class Routines(QDialog):
             selected = self.sources_box.currentText()
             splitted = selected.split("-")
 
-            with open("./.data/user.json", "r") as f: 
+            with open(read_index("user"), "r") as f: 
                 parsed = json.load(f)
                 f.close()
 
             if splitted[0] in parsed[flow_type]:
                 del parsed[flow_type][splitted[0]]
 
-            with open("./.data/user.json", "w") as f: 
+            with open(read_index("user"), "w") as f: 
                 f.close()
 
-            with open("./.data/user.json", "w") as f: 
+            with open(read_index("user"), "w") as f: 
                 json.dump(parsed, f, indent=4, sort_keys=False)
                 f.close()
 

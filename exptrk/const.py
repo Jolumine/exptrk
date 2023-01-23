@@ -15,8 +15,5 @@ ROUTINES = ["daily", "monthly", "yearly"]
 # Basic ops
 TYPES_OF_FLOWS = ["Expense", "Income"]
 
-# Logs 
-LOG_FILE = "/.data/logs.log"
-
 # Settings std
 CURRENCYS = ["USD/$", "Euro/€", "Yen/\u00A5", "Pound/\u00A3"]

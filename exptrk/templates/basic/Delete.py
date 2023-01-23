@@ -6,6 +6,7 @@ from exptrk.templates.dialogs.Confirm import Confirm
 from exptrk.const import TYPES_OF_FLOWS, FIELD_NAMES
 
 from exptrk.utils.get_entrys import get_entrys
+from exptrk.utils.read_index import read_index
 
 import csv 
 
@@ -48,7 +49,7 @@ class Delete_Window(QDialog):
             splitted = selected.split("-")
             update = []
 
-            with open(f"./.data/{self.type.currentText().lower()}s.csv", "r", newline="") as file: 
+            with open(read_index(self.type.currentText().lower()), "r", newline="") as file: 
                 reader = csv.DictReader(file)
                 for row in reader: 
                     if row["Amount"] + "€" == splitted[0] and row["Day"] == splitted[1] and row["Month"] == splitted[2] and row["Year"] == splitted[3]:
@@ -56,12 +57,11 @@ class Delete_Window(QDialog):
                     else: 
                         update.append(row)
 
-            with open(f"./.data/{self.type.currentText().lower()}s.csv", "w", newline="") as f: 
+            with open(read_index(self.type.currentText().lower()), "w", newline="") as f: 
                 f.close()
 
-
-            with open(f"./.data/{self.type.currentText().lower()}s.csv", "a", newline="") as f: 
-                f.write("Amount,Day,Month,Year,Type,Description\n")
+            with open(read_index(self.type.currentText().lower()), "a", newline="") as f: 
+                f.write("Amount,Day,Month,Year,Description\n")
 
                 writer = csv.DictWriter(f, fieldnames=FIELD_NAMES, delimiter=",")
 
@@ -70,10 +70,9 @@ class Delete_Window(QDialog):
                     day = update[i]["Day"]
                     month = update[i]["Month"]
                     year = update[i]["Year"]
-                    type = ""
                     description = update[i]["Description"]
 
-                    row = {"Amount": amount, "Day" : day, "Month" : month, "Year": year, "Type": type, "Description": description}
+                    row = {"Amount": amount, "Day" : day, "Month" : month, "Year": year, "Description": description}
                     writer.writerow(row)
         else: 
             pass

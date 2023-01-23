@@ -1,3 +1,5 @@
+from exptrk.utils.read_index import read_index
+
 from exptrk.const import MONTHS, DAYS
 
 import csv 
@@ -11,7 +13,7 @@ class Calculation:
         all_amounts = []
 
         if year != "": # Filtering year
-            with open(f"./.data/{money_type.lower()}s.csv", "r") as file: 
+            with open(read_index(money_type.lower()), "r") as file: 
                 reader = csv.DictReader(file)
 
                 for row in reader:
@@ -33,7 +35,7 @@ class Calculation:
     @staticmethod
     def get_scatter(option, month, year):
         amounts = []
-        with open(f"./.data/{option.lower()}s.csv", "r") as f: 
+        with open(read_index(option.lower()), "r") as f: 
             reader = csv.DictReader(f)
 
             for row in reader:
@@ -60,7 +62,7 @@ class Calculation:
 
         dict_rev = {"January": 0, "February": 0, "March": 0, "April": 0, "May": 0, "June": 0, "July": 0, "August": 0, "September": 0, "October": 0, "November": 0, "December": 0}
        
-        with open("./.data/incomes.csv", "r") as file_rev:
+        with open(read_index("income"), "r") as file_rev:
             reader_rev = csv.DictReader(file_rev)
 
             for row in reader_rev:
@@ -70,7 +72,7 @@ class Calculation:
                     else: 
                         pass
  
-        with open("./.data/expenses.csv", "r") as file_exp: 
+        with open(read_index("expense"), "r") as file_exp: 
             reader_exp = csv.DictReader(file_exp)
 
             for row in reader_exp:
