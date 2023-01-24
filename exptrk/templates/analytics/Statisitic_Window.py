@@ -1,10 +1,16 @@
+# Copyright 2023 by Leonard Becker
+# All rights reserved.
+# This file is part of the exptrk python project,
+# and is released under the "MIT License Agreement". Please see the LICENSE
+# file that should have been included as part of this package.
+
 from PyQt5.QtWidgets import QLabel, QLineEdit, QDialog, QHBoxLayout, QVBoxLayout, QComboBox, QPushButton
 from PyQt5.QtChart import QChartView, QPieSeries, QChart
 from PyQt5.QtGui import QIcon
 
-from exptrk.templates.analytics.stats.Statistics import Statistics
-from exptrk.templates.analytics.stats.plot.Graphs import CanvasComplexBar, CanvasSimpleBar, CanvasSimpleLine, CanvasComplexLine
-from exptrk.templates.analytics.stats.plot.Calculation import Calculation
+from exptrk.templates.analytics.Statistics import Statistics
+from exptrk.templates.analytics.plot.Graphs import CanvasComplexBar, CanvasSimpleBar, CanvasSimpleLine, CanvasComplexLine
+from exptrk.templates.analytics.plot.Calculation import Calculation
 
 from exptrk.utils.get_currency import get_currency
 from exptrk.utils.get_routines import get_routines

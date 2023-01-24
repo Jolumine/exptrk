@@ -1,3 +1,9 @@
+# Copyright 2023 by Leonard Becker
+# All rights reserved.
+# This file is part of the exptrk python project,
+# and is released under the "MIT License Agreement". Please see the LICENSE
+# file that should have been included as part of this package.
+
 from PyQt5.QtWidgets import QPushButton, QDialog, QComboBox, QLabel, QHBoxLayout, QVBoxLayout, QMessageBox, QLineEdit
 from PyQt5.QtGui import QIcon
 

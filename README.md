@@ -1,15 +1,18 @@
 # :bar_chart:Expense_Tracker
 
-More information coming soon. 
+Desktop application build with Python and PyQt5. Gives the possibility to keep track of your money. It includes analytics, routines and a currency converter (coming soon). 
 
 ## :white_check_mark:Installation
 
 ```bash
 git clone https://github.com/Jolumine/exp-trk.git
 cd exp-trk
-pip install .
 python run.py
 ```
+
+## Contributing
+
+Contact me or create a pull request to contribute to the exptrk project. 
 
 ## :link:Contact
 

@@ -1,3 +1,9 @@
+# Copyright 2023 by Leonard Becker
+# All rights reserved.
+# This file is part of the exptrk python project,
+# and is released under the "MIT License Agreement". Please see the LICENSE
+# file that should have been included as part of this package.
+
 from PyQt5.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QComboBox, QPushButton, QLabel
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import Qt
@@ -13,10 +19,10 @@ from exptrk.templates.routines.Routines import Routines
 from exptrk.templates.routines.validation.check_incomes import check_incomes
 from exptrk.templates.routines.validation.check_expenses import check_expenses
 
-from exptrk.templates.analytics.stats.Statisitic_Window import Statistic_Window
+from exptrk.templates.analytics.Statisitic_Window import Statistic_Window
 from exptrk.templates.Graphics import PieChart
 
-from exptrk.templates.analytics.stats.Statistics import Statistics
+from exptrk.templates.analytics.Statistics import Statistics
 
 from exptrk.const import MONTHS
 
