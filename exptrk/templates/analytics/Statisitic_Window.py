@@ -8,9 +8,9 @@ from PyQt5.QtWidgets import QLabel, QLineEdit, QDialog, QHBoxLayout, QVBoxLayout
 from PyQt5.QtChart import QChartView, QPieSeries, QChart
 from PyQt5.QtGui import QIcon
 
-from exptrk.templates.analytics.Statistics import Statistics
-from exptrk.templates.analytics.plot.Graphs import CanvasComplexBar, CanvasSimpleBar, CanvasSimpleLine, CanvasComplexLine
-from exptrk.templates.analytics.plot.Calculation import Calculation
+from exptrk.calc.Generate_Stats import Generate_Stats
+from exptrk.graphics.Plot_Charts import CanvasComplexBar, CanvasSimpleBar, CanvasComplexLine, CanvasSimpleLine
+from exptrk.calc.Generate_Values import Generate_Values
 
 from exptrk.utils.get_currency import get_currency
 from exptrk.utils.get_routines import get_routines
@@ -30,7 +30,7 @@ class Statistic_Window(QDialog):
         self.year_box = QComboBox(self)
         self.year_box.addItems(YEARS)
         self.year_box.setCurrentText(str(datetime.datetime.today().year))
-        self.year_box.currentIndexChanged.connect(self.changed)
+        self.year_box.currentIndexChanged.connect(self.index_changed)
 
         self.months = QLabel("Month:")
  
@@ -38,33 +38,33 @@ class Statistic_Window(QDialog):
         months = MONTHS
         months.insert(0, "All")
         self.months_box.addItems(months)
-        self.months_box.currentIndexChanged.connect(self.changed)
+        self.months_box.currentIndexChanged.connect(self.index_changed)
 
         self.options = QLabel("Options:")
 
         self.options_box = QComboBox(self)
         self.options_box.addItems(["Expense", "Income", "Difference"])
-        self.options_box.currentIndexChanged.connect(self.changed)
+        self.options_box.currentIndexChanged.connect(self.index_changed)
         
         self.sum_exp = QLineEdit(self)
         self.sum_exp.setReadOnly(True)
         self.sum_exp.setFixedWidth(250)
-        self.sum_exp.setText(f"Sum of expenses: {Statistics.get_expenses_sum()} {self.currency}")
+        self.sum_exp.setText(f"Sum of expenses: {Generate_Stats.get_expenses_sum(year=self.year_box.currentText())} {self.currency}")
 
         self.sum_in = QLineEdit(self)
         self.sum_in.setReadOnly(True)
         self.sum_in.setFixedWidth(250)
-        self.sum_in.setText(f"Sum of incomes: {Statistics.get_income_sum()} {self.currency}")
+        self.sum_in.setText(f"Sum of incomes: {Generate_Stats.get_income_sum(year=self.year_box.currentText())} {self.currency}")
 
         self.passive_in = QLineEdit(self)
         self.passive_in.setReadOnly(True)
         self.passive_in.setFixedWidth(250)
-        self.passive_in.setText(f"Sum of income routines: {Statistics.get_sum_passive_in()} {self.currency}")
+        self.passive_in.setText(f"Sum of income routines: {Generate_Stats.get_sum_passive_in()} {self.currency}")
 
         self.passive_exp = QLineEdit(self)
         self.passive_exp.setReadOnly(True)
         self.passive_exp.setFixedWidth(250)
-        self.passive_exp.setText(f"Sum of expense routines: {Statistics.get_sum_passive_exp()} {self.currency}")
+        self.passive_exp.setText(f"Sum of expense routines: {Generate_Stats.get_sum_passive_exp()} {self.currency}")
 
         self.switch_button = QPushButton("Switch", self)
         self.switch_button.setToolTip("Click to switch the plot.")
@@ -119,7 +119,7 @@ class Statistic_Window(QDialog):
         if "All" in MONTHS:
             MONTHS.remove("All")
 
-        self.plot = CanvasSimpleBar(MONTHS, Calculation.get_data(self.options_box.currentText(), self.year_box.currentText()), f"{self.options_box.currentText()} in {self.year_box.currentText()}", "Months", "Amount")
+        self.plot = CanvasSimpleBar(MONTHS, Generate_Values.get_data(self.options_box.currentText(), self.year_box.currentText()), f"{self.options_box.currentText()} in {self.year_box.currentText()}", "Months", "Amount")
 
         # -----------------------
 
@@ -170,7 +170,7 @@ class Statistic_Window(QDialog):
         option = self.options_box.currentText()
         if month_selection == "All" and option == "Difference":
             # Difference of selected year
-            amounts = Calculation.calculate_difference(year_selection)
+            amounts = Generate_Values.calculate_difference(year_selection)
             self.root.removeWidget(self.plot)
             self.plot = CanvasComplexBar(amounts, 13, f"Comparison beetween Expense and Income in {year_selection}", "Months", "Amounts", ["Expense", "Income"])
             self.root.addWidget(self.plot)
@@ -178,23 +178,34 @@ class Statistic_Window(QDialog):
         elif month_selection == "All" and option != "Difference": 
             # Bar plot of selected type and year
             self.root.removeWidget(self.plot)
-            self.plot = CanvasSimpleBar(MONTHS, Calculation.get_data(option, year=year_selection), f"{option}s in {year_selection}", "Month", "Amount")
+            self.plot = CanvasSimpleBar(MONTHS, Generate_Values.get_data(option, year=year_selection), f"{option}s in {year_selection}", "Month", "Amount")
             self.root.addWidget(self.plot)
             
         elif month_selection != "All" and option == "Difference": 
             # Difference of the selected month
             self.root.removeWidget(self.plot)
-            income_scatter = Calculation.get_scatter("Income", month=month_selection, year=year_selection)
-            expense_scatter = Calculation.get_scatter("Expense", month=month_selection, year=year_selection)
+            income_scatter = Generate_Values.get_scatter("Income", month=month_selection, year=year_selection)
+            expense_scatter = Generate_Values.get_scatter("Expense", month=month_selection, year=year_selection)
             self.plot = CanvasComplexBar((expense_scatter, income_scatter),  32, f"Comparison beetween Expense and Income in {month_selection}", "Day", "Amounts", ["Expense", "Income"])
             self.root.addWidget(self.plot)
             
         else: 
             # Scattering option over the selected month
-            amounts = Calculation.get_scatter(option, month=month_selection, year=year_selection)
+            amounts = Generate_Values.get_scatter(option, month=month_selection, year=year_selection)
             self.root.removeWidget(self.plot)
             self.plot = CanvasSimpleLine(DAYS, amounts, f"{option} in  {month_selection} {year_selection}", "Day", "Amount")
             self.root.addWidget(self.plot)
+
+    def update_stats(self): 
+        self.sum_exp.clear()
+        self.sum_in.clear()
+
+        if self.months_box.currentText() != "All": 
+            self.sum_exp.setText(f"Sum of expenses: {Generate_Stats.get_expenses_sum(month=self.months_box.currentText(),year=self.year_box.currentText())} {self.currency}")
+            self.sum_in.setText(f"Sum of incomes: {Generate_Stats.get_income_sum(month=self.months_box.currentText(),year=self.year_box.currentText())} {self.currency}")
+        else: 
+            self.sum_exp.setText(f"Sum of expenses: {Generate_Stats.get_expenses_sum(year=self.year_box.currentText())} {self.currency}")
+            self.sum_in.setText(f"Sum of incomes: {Generate_Stats.get_income_sum(year=self.year_box.currentText())} {self.currency}") 
         
 
     def switch(self):
@@ -202,8 +213,8 @@ class Statistic_Window(QDialog):
         year_selection = self.year_box.currentText()
 
         self.root.removeWidget(self.plot)
-        income_scatter = Calculation.get_scatter("Income", month=month_selection, year=year_selection)
-        expense_scatter = Calculation.get_scatter("Expense", month=month_selection, year=year_selection)
+        income_scatter = Generate_Values.get_scatter("Income", month=month_selection, year=year_selection)
+        expense_scatter = Generate_Values.get_scatter("Expense", month=month_selection, year=year_selection)
         if type(self.plot) == CanvasComplexBar: 
             self.plot = CanvasComplexLine(DAYS, DAYS, expense_scatter, income_scatter, f"Comparison beetween Expense and Income in {month_selection}", "Day", "Amounts")
             self.root.addWidget(self.plot)
@@ -211,17 +222,17 @@ class Statistic_Window(QDialog):
             self.plot = CanvasComplexBar((expense_scatter, income_scatter),  32, f"Comparison beetween Expense and Income in {month_selection}", "Day", "Amounts", ["Expense", "Income"])
             self.root.addWidget(self.plot)
 
-    def changed(self):
+    def index_changed(self):
         self.update_plot()
+        self.update_stats()
         month = self.months_box.currentText()
         option = self.options_box.currentText()
 
         if month != "All" and option == "Difference": 
             if self.switch_button.isHidden():
                 self.switch_button.show()
-
         else: 
             self.switch_button.hide()
         
 
-        
+    

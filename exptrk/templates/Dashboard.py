@@ -20,13 +20,13 @@ from exptrk.templates.routines.validation.check_incomes import check_incomes
 from exptrk.templates.routines.validation.check_expenses import check_expenses
 
 from exptrk.templates.analytics.Statisitic_Window import Statistic_Window
-from exptrk.templates.Graphics import PieChart
+from exptrk.graphics.Plot_Charts import CanvasSimpleBar
+from exptrk.graphics.Pie_Widget import PieChart
 
-from exptrk.templates.analytics.Statistics import Statistics
+from exptrk.calc.Generate_Stats import Generate_Stats
 
 from exptrk.const import MONTHS
 
-import json
 import datetime
 
 class Dashboard(QWidget):
@@ -36,6 +36,8 @@ class Dashboard(QWidget):
         self.currency_icon = get_currency()[1]
 
         self.current_month = MONTHS[(datetime.datetime.now().month)-1]
+
+        self.plot_index = 0
 
         # Expenses
 
@@ -91,12 +93,38 @@ class Dashboard(QWidget):
 
         # Graphs
 
-        self.chartview_normal = PieChart(f"Expenses | Incomes in {self.current_month}", Qt.GlobalColor.red, Qt.GlobalColor.darkGreen, "Expense", "Income", Statistics.get_expenses_sum(self.current_month), Statistics.get_income_sum(self.current_month), self.currency_icon).get_chartview()
-        self.chartview_passive = PieChart("Routines", Qt.GlobalColor.darkBlue, Qt.GlobalColor.darkYellow, "Expense", "Income", Statistics.get_sum_passive_exp(), Statistics.get_sum_passive_in(), self.currency_icon).get_chartview()
+        self.chart_1 = PieChart(f"Expenses | Incomes in {self.current_month}", Qt.GlobalColor.red, Qt.GlobalColor.darkGreen, "Expense", "Income", 
+            Generate_Stats.get_expenses_sum(self.current_month), Generate_Stats.get_income_sum(self.current_month), self.currency_icon).get_chartview()
+
+        self.chart_2 = PieChart("Routines", Qt.GlobalColor.darkBlue, Qt.GlobalColor.darkYellow, "Expense", "Income", 
+            Generate_Stats.get_sum_passive_exp(), Generate_Stats.get_sum_passive_in(), self.currency_icon).get_chartview()
 
         self.charts_layout = QHBoxLayout()
-        self.charts_layout.addWidget(self.chartview_normal)
-        self.charts_layout.addWidget(self.chartview_passive)
+        self.charts_layout.addWidget(self.chart_1)
+        self.charts_layout.addWidget(self.chart_2)
+
+        # ----------------------------
+
+        # Graph buttons
+
+        self.next_button = QPushButton(self)
+        self.next_button.setIcon(QIcon("assets/arrow_right.png"))
+        self.next_button.setToolTip("Click to switch to the next set of graphs")
+        self.next_button.clicked.connect(self.next_plot)
+
+        self.graph_label = QLabel("Collection of plots")
+
+        self.previous_button = QPushButton(self)
+        self.previous_button.setIcon(QIcon("assets/arrow_left.png"))
+        self.previous_button.setToolTip("Click to switch to the previous set of graphs")
+        self.previous_button.clicked.connect(self.previous_plot)
+
+        self.graph_button_layout = QHBoxLayout()
+        self.graph_button_layout.addWidget(self.previous_button)
+        self.graph_button_layout.addStretch()
+        self.graph_button_layout.addWidget(self.graph_label)
+        self.graph_button_layout.addStretch()
+        self.graph_button_layout.addWidget(self.next_button)
 
         # ----------------------------
         
@@ -115,7 +143,7 @@ class Dashboard(QWidget):
         self.root = QVBoxLayout()
         self.root.addLayout(self.upper_section)
         self.root.addLayout(self.charts_layout)
-        
+        self.root.addLayout(self.graph_button_layout)
         self.root.addWidget(self.plot_button)
         self.root.addWidget(self.routines_button)
         self.root.addWidget(self.settings_button)
@@ -137,32 +165,60 @@ class Dashboard(QWidget):
         self.expenses_box.addItems(get_entrys("Expense"))
         self.incomes_box.addItems(get_entrys("Income"))
 
-        self.charts_layout.removeWidget(self.chartview_normal)
-        self.charts_layout.removeWidget(self.chartview_passive)
+        self.charts_layout.removeWidget(self.chart_1)
+        self.charts_layout.removeWidget(self.chart_2)
 
         self.currency_icon = get_currency()[1]
 
-        self.chartview_normal = PieChart(f"Expenses | Incomes in {self.current_month}", Qt.GlobalColor.red, Qt.GlobalColor.darkGreen, "Expense", "Income", Statistics.get_expenses_sum(self.current_month), Statistics.get_income_sum(self.current_month), self.currency_icon).get_chartview()
-        self.chartview_passive = PieChart("Routines", Qt.GlobalColor.darkBlue, Qt.GlobalColor.darkYellow, "Expense", "Income", Statistics.get_sum_passive_exp(), Statistics.get_sum_passive_in(), self.currency_icon).get_chartview()
+        del self.chart_1
+        del self.chart_2
 
-        self.charts_layout.addWidget(self.chartview_normal)
-        self.charts_layout.addWidget(self.chartview_passive)
+        if self.plot_index == 1: 
+            self.render_bar()
+        else: 
+            self.render_pie()
 
-    def create_entry(self):
+        self.charts_layout.addWidget(self.chart_1)
+        self.charts_layout.addWidget(self.chart_2)
+
+    def render_bar(self) -> None: 
+        self.chart_1 = CanvasSimpleBar(["Income", "Expense", "Profit"], [Generate_Stats.get_income_sum(self.current_month), Generate_Stats.get_expenses_sum(self.current_month), 
+            (Generate_Stats.get_income_sum(self.current_month)-Generate_Stats.get_expenses_sum(self.current_month))], f"Incomes | Expenses in {self.current_month}", "", "", ["green", "red", "black"]) 
+        self.chart_2 = CanvasSimpleBar(["Income", "Expense", "Profit"], [Generate_Stats.get_sum_passive_in(), Generate_Stats.get_sum_passive_exp(), 
+            (Generate_Stats.get_sum_passive_in()-Generate_Stats.get_sum_passive_exp())], "Monthly balance", "", "", ["green", "red", "black"])  
+
+    def render_pie(self) -> None: 
+        self.chart_1 = PieChart(f"Expenses | Incomes in {self.current_month}", Qt.GlobalColor.red, Qt.GlobalColor.darkGreen, "Expense", "Income", 
+            Generate_Stats.get_expenses_sum(self.current_month), Generate_Stats.get_income_sum(self.current_month), self.currency_icon).get_chartview()
+        self.chart_2 = PieChart("Routines", Qt.GlobalColor.darkBlue, Qt.GlobalColor.darkYellow, "Expense", "Income", 
+            Generate_Stats.get_sum_passive_exp(), Generate_Stats.get_sum_passive_in(), self.currency_icon).get_chartview()
+
+    def next_plot(self) -> None: 
+        if self.plot_index == 0: 
+            self.plot_index+=1
+            self.render() 
+
+    def previous_plot(self) -> None: 
+        if self.plot_index == 1: 
+            self.plot_index-=1
+            self.render() 
+
+    def create_entry(self) -> None:
         Add_Window()
         self.render()
     
-    def delete_entry(self):
+    def delete_entry(self) -> None:
         Delete_Window() 
         self.render()
 
-    def open_analytics(self):
+    @staticmethod
+    def open_analytics():
         return Statistic_Window()
 
-    def open_routines(self):
+    def open_routines(self) -> None:
         Routines()
         self.render()
 
-    def open_settings(self):
+    def open_settings(self) -> None:
         Settings()
         self.render()

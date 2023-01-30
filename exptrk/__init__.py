@@ -12,11 +12,12 @@ from exptrk.templates.Dashboard import Dashboard
 from exptrk.setup import Setup
 
 import sys
+import os
 
 def main(): 
     app = QApplication(sys.argv)
 
-    if Setup.check("./.data/"): 
+    if Setup.check(os.path.join(os.getcwd(), ".data")): 
         pass
     else: 
         setup = Setup()
@@ -28,12 +29,3 @@ def main():
     root.show()
 
     sys.exit(app.exec_())
-
-
-if __name__ == "__main__":
-    main()
-
-
-__name__ = "exp-trk"
-__version__ = "3.0.0"
-__author__ = "Leonard Becker"

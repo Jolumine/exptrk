@@ -12,10 +12,40 @@ from exptrk.utils.read_index import read_index
 from exptrk.const import FIELD_NAMES
 
 
-class Statistics: 
+class Generate_Stats: 
     @staticmethod
-    def get_income_sum(month="") -> float:
-        if month != "": 
+    def get_income_sum(month="", year="") -> float:
+        if month != "" and year != "": 
+            sum = 0.0
+            with open(read_index("income"), "r") as f:
+                reader = csv.DictReader(f, fieldnames=FIELD_NAMES)
+                for row in reader: 
+                    if row["Amount"] == "Amount":
+                        pass 
+                    else:
+                        if row["Month"] == month and row["Year"] == year: 
+                            sum+=float(row["Amount"])
+                        else: 
+                            pass
+                f.close()
+
+            return sum
+        elif month == "" and year != "":
+            sum = 0.0
+            with open(read_index("income"), "r") as f:
+                reader = csv.DictReader(f, fieldnames=FIELD_NAMES)
+                for row in reader: 
+                    if row["Amount"] == "Amount":
+                        pass 
+                    else:
+                        if row["Year"] == year: 
+                            sum+=float(row["Amount"])
+                        else: 
+                            pass
+                f.close()
+
+            return sum 
+        elif month != "" and year == "":
             sum = 0.0
             with open(read_index("income"), "r") as f:
                 reader = csv.DictReader(f, fieldnames=FIELD_NAMES)
@@ -31,21 +61,39 @@ class Statistics:
 
             return sum
         else: 
-            sum = 0.0
-            with open(read_index("income"), "r") as f:
-                reader = csv.DictReader(f, fieldnames=FIELD_NAMES)
-                for row in reader:  
-                    if row["Amount"] == "Amount": 
-                        pass 
-                    else:    
-                        sum+=float(row["Amount"])
-                        
-                f.close()
-            return sum
+            pass
 
     @staticmethod
-    def get_expenses_sum(month="") -> float:
-        if month != "":
+    def get_expenses_sum(month="", year="") -> float:
+        if month != "" and year != "":
+            sum = 0.0
+            with open(read_index("expense"), "r") as f:
+                reader = csv.DictReader(f, fieldnames=FIELD_NAMES)
+                for row in reader: 
+                    if row["Amount"] == "Amount":
+                        pass 
+                    else:
+                        if row["Month"] == month and row["Year"] == year: 
+                            sum+=float(row["Amount"])
+                        else: 
+                            pass
+            f.close()
+            return sum
+        elif month == "" and year != "":
+            sum = 0.0
+            with open(read_index("expense"), "r") as f:
+                reader = csv.DictReader(f, fieldnames=FIELD_NAMES)
+                for row in reader: 
+                    if row["Amount"] == "Amount":
+                        pass 
+                    else:
+                        if row["Year"] == year: 
+                            sum+=float(row["Amount"])
+                        else: 
+                            pass
+            f.close()
+            return sum 
+        elif month != "" and year == "":
             sum = 0.0
             with open(read_index("expense"), "r") as f:
                 reader = csv.DictReader(f, fieldnames=FIELD_NAMES)
@@ -60,17 +108,7 @@ class Statistics:
             f.close()
             return sum
         else: 
-            sum = 0.0
-            with open(read_index("expense"), "r") as f:
-                reader = csv.DictReader(f, fieldnames=FIELD_NAMES)
-                for row in reader:     
-                    if row["Amount"] == "Amount":
-                        pass 
-                    else: 
-                        sum+=float(row["Amount"])
-                        
-                f.close()
-            return sum
+            pass
 
     @staticmethod
     def get_sum_passive_in() -> float:

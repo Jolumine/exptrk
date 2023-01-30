@@ -7,7 +7,7 @@
 from PyQt5.QtWidgets import QDialog
 from PyQt5.QtGui import QIcon
 
-class Confirm(QDialog):
+class Error(QDialog):
     def __init__(self, x:int, y:int, title: str, text:str,parent=None):
         super().__init__()
 

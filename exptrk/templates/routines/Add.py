@@ -4,8 +4,10 @@
 # and is released under the "MIT License Agreement". Please see the LICENSE
 # file that should have been included as part of this package.
 
-from PyQt5.QtWidgets import QDialog, QPushButton, QComboBox, QLineEdit, QTextEdit, QLabel, QVBoxLayout, QHBoxLayout, QDoubleSpinBox
+from PyQt5.QtWidgets import QDialog, QPushButton, QComboBox, QLineEdit, QTextEdit, QLabel, QVBoxLayout, QHBoxLayout, QDoubleSpinBox, QMessageBox
 from PyQt5.QtGui import QIcon
+
+from exptrk.templates.dialogs.Confirm import Confirm
 
 from exptrk.utils.get_categorys import get_categorys
 from exptrk.utils.read_index import read_index
@@ -126,7 +128,7 @@ class Add_Window(QDialog):
         name = self.name.text()
         amount = self.amount.value()
         repeat = self.repeat.currentText()
-        selected_type = self.type_money_box.currentText()
+        category = self.category.currentText()
         description = self.descr.toPlainText()
 
         with open(read_index("user"), "r") as f: 
@@ -136,12 +138,25 @@ class Add_Window(QDialog):
         with open(read_index("user"), "w") as f: 
             f.close()
 
-        with open(read_index("user"), "w") as f: 
-            parsed[f"{type_money}s"][name] = {"Name": name, "Amount": amount, "Repeated" : repeat, "Type": selected_type, "Description": description}
+        if name in parsed[f"{type_money}s"]:
+            dialog = Confirm(300, 300, "Warning", "This name is already existing, do you want to overwrite it?", "assets/warning.png") 
+            rep = dialog.exec_()
 
-            json.dump(parsed, f, indent=4, sort_keys=False)
+            if rep == QMessageBox.Apply: 
+                with open(read_index("user"), "w") as f: 
+                    parsed[f"{type_money}s"][name] = {"Name": name, "Amount": amount, "Repeated" : repeat, "Category": category, "Description": description}
+                    json.dump(parsed, f, indent=4, sort_keys=False)
+                    f.close() 
+            else: 
+                with open(read_index("user"), "w") as f: 
+                    json.dump(parsed, f, indent=4, sort_keys=False)
+                    f.close() 
 
-            f.close()
+        else:
+            with open(read_index("user"), "w") as f: 
+                parsed[f"{type_money}s"][name] = {"Name": name, "Amount": amount, "Repeated" : repeat, "Category": category, "Description": description}
+                json.dump(parsed, f, indent=4, sort_keys=False)
+                f.close()
 
         self.close()
 

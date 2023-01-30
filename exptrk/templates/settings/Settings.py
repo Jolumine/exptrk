@@ -120,8 +120,6 @@ class Settings(QDialog):
 
     def toggle(self):
         self.root.removeItem(self.mod_layout)
-        self.root.removeItem(self.reset_layout)
-        self.root.removeWidget(self.export_button)
         self.root.removeWidget(self.savebtn)
 
         self.create_name.show()
@@ -132,8 +130,6 @@ class Settings(QDialog):
 
         self.root.addLayout(self.toggled_layout)
         self.root.addLayout(self.mod_layout)
-        self.root.addLayout(self.reset_layout)
-        self.root.addWidget(self.export_button)
         self.root.addWidget(self.savebtn)
 
     def cancel_creation(self):
@@ -146,7 +142,7 @@ class Settings(QDialog):
         self.delete_category.setDisabled(False)
     
     def confirm_creation(self):
-        window = Confirm(200, 300, "Confirm", "Confirm the creation.")
+        window = Confirm(200, 300, "Confirm", "Confirm the creation.", "assets/confirm.png")
         rep = window.exec_()
 
         if rep == QMessageBox.Apply:
@@ -175,7 +171,7 @@ class Settings(QDialog):
         selected = self.categorys.currentText()
 
         if selected != "":
-            window = Confirm(200, 300, "Confirm", "Confirm the deletion.")
+            window = Confirm(200, 300, "Confirm", "Confirm the deletion.", "assets/confirm.png")
             rep = window.exec_()
             if rep == QMessageBox.Apply:
                 with open(self.user, "r") as f: 

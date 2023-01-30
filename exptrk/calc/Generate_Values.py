@@ -13,7 +13,7 @@ import csv
 month_dict = {m:0 for m in MONTHS}
 days_dict = {d:0 for d in DAYS}
 
-class Calculation:
+class Generate_Values:
     @staticmethod
     def get_data(money_type, year): 
         all_amounts = []
@@ -32,7 +32,7 @@ class Calculation:
             for v in month_dict.values():
                 all_amounts.append(v)
 
-            Calculation.clean_data()
+            Generate_Values.clean_data()
 
             return all_amounts
         else:
@@ -54,7 +54,7 @@ class Calculation:
         for v in days_dict.values():
             amounts.append(v)
 
-        Calculation.clean_data()
+        Generate_Values.clean_data()
 
         return amounts
 

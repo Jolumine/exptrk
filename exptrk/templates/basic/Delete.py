@@ -47,7 +47,7 @@ class Delete_Window(QDialog):
         self.entrys.addItems(get_entrys(self.type.currentText()))
 
     def delete(self):
-        confirm = Confirm(300, 300,"Confirm", "Confirm the deletion of this entry.")
+        confirm = Confirm(300, 300,"Confirm", "Confirm the deletion of this entry.", "assets/confirm.png")
         rep = confirm.exec_()
 
         if rep == QMessageBox.Apply:

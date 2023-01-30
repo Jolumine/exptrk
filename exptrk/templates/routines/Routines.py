@@ -78,7 +78,7 @@ class Routines(QDialog):
         self.render()
 
     def delete(self): 
-        window = Confirm(300, 200, "Confirm", "Confirm the deleten of the selected entry.")
+        window = Confirm(300, 200, "Confirm", "Confirm the deleten of the selected entry.", "assets/confirm.png")
         rep = window.exec_()
 
         if rep == QMessageBox.Apply:
