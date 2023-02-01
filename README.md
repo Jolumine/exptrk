@@ -1,20 +1,33 @@
-# :bar_chart:Expense_Tracker
+# :bar_chart: Expense_Tracker
 
 Desktop application build with Python and PyQt5. Gives the possibility to keep track of your money. It includes analytics, routines and a currency converter (coming soon). 
 
-## :white_check_mark:Installation
+## :white_check_mark: Installation
 
 ```bash
 git clone https://github.com/Jolumine/exp-trk.git
 cd exp-trk
-pip install bin/exptrk-3.0.0-py3-none-any.whl
+pip install bin/exptrk-3.1.1-py3-none-any.whl
 python run.py
 ```
 
-## Contributing
+## :hammer_and_wrench: Usage
 
-Contact me or create a pull request to contribute to the exptrk project. 
+```txt
+Read documentation for further informations. 
+```
+
+## 	:desktop_computer: UI
+
+The data is just for development purpose and has been created with [file](dev/create_dev_data.py).
+### Home screen (Dashboard)
+![Home Screen](.github/ui/dashboard.jpg)
+
+### Analytics 
+![Analytics](.github/ui/analytics.jpg)
+
 
 ## :link:Contact
 
-:iphone:  Twitter: <https://twitter.com/Leo_Becker09> \
+:iphone: Twitter: [Leo_Becker09](https://twitter.com/Leo_Becker09) <br>
+:e-mail: Mail: thepythoncoder01@gmail.com
