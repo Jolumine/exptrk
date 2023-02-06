@@ -74,12 +74,12 @@ def check_expenses() -> None:
 
                 splitted = source.split("-")
                 
-                if splitted[4]: 
+                if len(splitted) >= 5: 
                     day = datetime.today().day
                     month = MONTHS[(datetime.now().month)-1]
                     year = datetime.today().year
 
-                    writer.writerow({"Amount": round(convert(float(splitted[1]), splitted[4], get_currency()[0]), 2), "Day": day, "Month": month, "Year": year, "Description": f"Routine {splitted[0]}"}) 
+                    writer.writerow({"Amount": round(convert(float(splitted[1]), splitted[3], get_currency()[0]), 2), "Day": day, "Month": month, "Year": year, "Description": f"Routine {splitted[0]}"}) 
                 else: 
                     day = datetime.today().day
                     month = MONTHS[(datetime.now().month)-1]

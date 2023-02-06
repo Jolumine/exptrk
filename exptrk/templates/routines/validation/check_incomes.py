@@ -73,7 +73,7 @@ def check_incomes() -> None:
 
                 splitted = source.split("-")
                 
-                if splitted[4]: 
+                if len(splitted) >= 5: 
                     day = datetime.today().day
                     month = MONTHS[(datetime.now().month)-1]
                     year = datetime.today().year
