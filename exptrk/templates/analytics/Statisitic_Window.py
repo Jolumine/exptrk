@@ -172,7 +172,7 @@ class Statistic_Window(QDialog):
             # Difference of selected year
             amounts = Generate_Values.calculate_difference(year_selection)
             self.root.removeWidget(self.plot)
-            self.plot = CanvasComplexBar(amounts, 13, f"Comparison beetween Expense and Income in {year_selection}", "Months", "Amounts", ["Expense", "Income"])
+            self.plot = CanvasComplexBar(amounts, MONTHS, 0, 13, f"Comparison beetween Expense and Income in {year_selection}", "Months", "Amounts", ["Expense", "Income"])
             self.root.addWidget(self.plot)
 
         elif month_selection == "All" and option != "Difference": 
@@ -186,7 +186,7 @@ class Statistic_Window(QDialog):
             self.root.removeWidget(self.plot)
             income_scatter = Generate_Values.get_scatter("Income", month=month_selection, year=year_selection)
             expense_scatter = Generate_Values.get_scatter("Expense", month=month_selection, year=year_selection)
-            self.plot = CanvasComplexBar((expense_scatter, income_scatter),  32, f"Comparison beetween Expense and Income in {month_selection}", "Day", "Amounts", ["Expense", "Income"])
+            self.plot = CanvasComplexBar((expense_scatter, income_scatter), 1, 32, f"Comparison beetween Expense and Income in {month_selection}", "Day", "Amounts", ["Expense", "Income"], [str(i) for i in range(1, 32)])
             self.root.addWidget(self.plot)
             
         else: 
@@ -219,7 +219,7 @@ class Statistic_Window(QDialog):
             self.plot = CanvasComplexLine(DAYS, DAYS, expense_scatter, income_scatter, f"Comparison beetween Expense and Income in {month_selection}", "Day", "Amounts")
             self.root.addWidget(self.plot)
         else: 
-            self.plot = CanvasComplexBar((expense_scatter, income_scatter),  32, f"Comparison beetween Expense and Income in {month_selection}", "Day", "Amounts", ["Expense", "Income"])
+            self.plot = CanvasComplexBar((expense_scatter, income_scatter), [str(i) for i in range(1, 32)], 1, 32, f"Comparison beetween Expense and Income in {month_selection}", "Day", "Amounts", ["Expense", "Income"])
             self.root.addWidget(self.plot)
 
     def index_changed(self):

@@ -27,20 +27,20 @@ class CanvasSimpleBar(FigureCanvasQTAgg):
 
 
 class CanvasComplexBar(FigureCanvasQTAgg): 
-    def __init__(self, input_tuple:tuple, limit:int, title:str, xlabel:str, ylabel:str, legend:list): 
+    def __init__(self, input_tuple:tuple, x:list, start:int, stop:int, title:str, xlabel:str, ylabel:str, legend:list): 
         fig = Figure(figsize=(13, 6))
         self.axes = fig.add_subplot(111)
         super().__init__(fig)
 
-        self.x = np.arange(1, limit)
+        self.x = np.arange(start, stop)
 
         self.axes.legend(legend)
         self.axes.set_xticks(self.x)
         self.axes.set_title(title)
         self.axes.set_xlabel(xlabel)
         self.axes.set_ylabel(ylabel)
-        self.axes.bar(self.x-0.1, input_tuple[1], 0.2, color='black')
-        self.axes.bar(self.x+0.1, input_tuple[0], 0.2, color="red")
+        self.axes.bar(x, input_tuple[1], 0.2, color='black')
+        self.axes.bar(x, input_tuple[0], 0.2, color="red")
 
 
 class CanvasSimpleLine(FigureCanvasQTAgg):
