@@ -4,12 +4,15 @@
 # and is released under the "MIT License Agreement". Please see the LICENSE
 # file that should have been included as part of this package.
 
-from PyQt5.QtWidgets import QLabel, QDialog, QDoubleSpinBox, QComboBox, QLineEdit, QPushButton, QHBoxLayout, QVBoxLayout
+from PyQt5.QtWidgets import QLabel, QDialog, QDoubleSpinBox, QComboBox, QLineEdit, QPushButton, QHBoxLayout, QVBoxLayout, QCheckBox
 from PyQt5.QtGui import QIcon
 
-from exptrk.utils.read_index import read_index
+from exptrk.api.convert import convert, generate_symbol_list
 
-from exptrk.const import DAYS, MONTHS, YEARS, FIELD_NAMES, TYPES_OF_FLOWS
+from exptrk.utils.read_index import read_index
+from exptrk.utils.get_currency import get_currency
+
+from exptrk.const import DAYS, MONTHS, YEARS, FIELD_NAMES, TYPES_OF_FLOWS, CURRENCYS
 
 import csv
 import datetime
@@ -43,6 +46,27 @@ class Add_Window(QDialog):
         self.amount_layout.addWidget(self.amount_label)
         self.amount_layout.addWidget(self.amount)
 
+        # Currency elements 
+
+        self.foreign_currency = QCheckBox("Foreign currency", self)
+        self.foreign_currency.stateChanged.connect(self.state_switch)
+
+        self.check_box_layout = QHBoxLayout()
+        self.check_box_layout.addStretch()
+        self.check_box_layout.addWidget(self.foreign_currency)
+
+        self.currency_label = QLabel("Currency:")
+        self.currency_label.hide()
+
+        self.currencys = QComboBox(self)
+        self.currencys.setToolTip("Select the foreign currency")
+
+        self.currencys.addItems(generate_symbol_list())
+        self.currencys.hide()
+        self.currency_layout = QHBoxLayout()
+        self.currency_layout.addWidget(self.currency_label)
+        self.currency_layout.addWidget(self.currencys)
+        
         # ----------------------------
 
         # Day elements
@@ -94,8 +118,8 @@ class Add_Window(QDialog):
 
         # Description
 
-        self.descr = QLineEdit(self)
-        self.descr.setPlaceholderText("Description / Name")
+        self.description = QLineEdit(self)
+        self.description.setPlaceholderText("Description")
 
         # ----------------------------
 
@@ -108,10 +132,11 @@ class Add_Window(QDialog):
         self.root = QVBoxLayout()
         self.root.addLayout(self.type_layout)
         self.root.addLayout(self.amount_layout)
+        self.root.addLayout(self.check_box_layout)
         self.root.addLayout(self.day_layout)
         self.root.addLayout(self.month_layout)
         self.root.addLayout(self.year_layout)
-        self.root.addWidget(self.descr)
+        self.root.addWidget(self.description)
         self.root.addWidget(self.add)
 
         self.setWindowIcon(QIcon("assets/create.png"))
@@ -126,22 +151,58 @@ class Add_Window(QDialog):
         month = self.month.currentText()
         year = self.year.currentText()
         descr = self.descr.text()
+        state = self.foreign_currency.isChecked()
 
-        file = f"./.data/{self.type.currentText()}s.csv"
+        if state: 
+            with open(read_index(self.type.currentText().lower()), "a") as f: 
+                writer = csv.DictWriter(f, fieldnames=FIELD_NAMES, lineterminator="\n")
 
-        with open(read_index(self.type.currentText().lower()), "a") as f: 
-            writer = csv.DictWriter(f, fieldnames=FIELD_NAMES, lineterminator="\n")
+                data = {
+                    "Amount": round(convert(amount, self.currencys.currentText().split("-")[0], get_currency()[0]), 2), 
+                    "Day": day, 
+                    "Month": month, 
+                    "Year": year,
+                    "Description": descr
+                }
 
-            data = {
-                "Amount": amount, 
-                "Day": day, 
-                "Month": month, 
-                "Year": year,
-                "Description": descr
-            }
+                writer.writerow(data)
+                f.close() 
+        else: 
+            with open(read_index(self.type.currentText().lower()), "a") as f: 
+                writer = csv.DictWriter(f, fieldnames=FIELD_NAMES, lineterminator="\n")
 
-            writer.writerow(data)
-            f.close()
+                data = {
+                    "Amount": amount, 
+                    "Day": day, 
+                    "Month": month, 
+                    "Year": year,
+                    "Description": descr
+                }
+
+                writer.writerow(data)
+                f.close()
 
         self.close()
     
+    def state_switch(self):
+        if self.foreign_currency.isChecked():
+            self.currency_label.show()
+            self.currencys.show()
+
+            self.root.removeItem(self.day_layout)
+            self.root.removeItem(self.month_layout)
+            self.root.removeItem(self.year_layout)
+            self.root.removeWidget(self.descr)
+            self.root.removeWidget(self.add)
+
+            self.root.addLayout(self.currency_layout)
+            self.root.addLayout(self.day_layout)
+            self.root.addLayout(self.month_layout)
+            self.root.addLayout(self.year_layout)
+            self.root.addWidget(self.descr)
+            self.root.addWidget(self.add)
+        else: 
+            self.currency_label.hide()
+            self.currencys.hide()
+
+            self.root.removeItem(self.currency_layout)

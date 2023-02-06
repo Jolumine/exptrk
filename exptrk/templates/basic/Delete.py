@@ -13,6 +13,7 @@ from exptrk.const import TYPES_OF_FLOWS, FIELD_NAMES
 
 from exptrk.utils.get_entrys import get_entrys
 from exptrk.utils.read_index import read_index
+from exptrk.utils.get_currency import get_currency
 
 import csv 
 
@@ -58,7 +59,7 @@ class Delete_Window(QDialog):
             with open(read_index(self.type.currentText().lower()), "r", newline="") as file: 
                 reader = csv.DictReader(file)
                 for row in reader: 
-                    if row["Amount"] + "€" == splitted[0] and row["Day"] == splitted[1] and row["Month"] == splitted[2] and row["Year"] == splitted[3]:
+                    if row["Amount"] + f"{get_currency()[1]}" == splitted[0] and row["Day"] == splitted[1] and row["Month"] == splitted[2] and row["Year"] == splitted[3]:
                         pass 
                     else: 
                         update.append(row)

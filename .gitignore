@@ -13,7 +13,11 @@ __pycache__/
 # User data 
 
 .data/
-*.json
+index.json
+
+# Obsidian
+
+.obsidian/
 
 # Distribution / packaging
 .Python

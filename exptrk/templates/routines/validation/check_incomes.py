@@ -4,26 +4,17 @@
 # and is released under the "MIT License Agreement". Please see the LICENSE
 # file that should have been included as part of this package.
 
+from exptrk.templates.routines.validation.get_routines_adapted import get_routines_adapted
+
 from exptrk.utils.read_index import read_index
+from exptrk.utils.get_currency import get_currency
+from exptrk.api.convert import convert
 
 from exptrk.const import FIELD_NAMES, MONTHS
 
 from datetime import datetime
 
 import csv
-import json
-
-def get_routines_adapted(type:str) -> list[str]:
-    result = []
-    with open(read_index("user"), "r") as f: 
-        parsed = json.load(f)
-        f.close()
-
-    for source in parsed[f"{type}s"]: 
-        result.append(f'{source}-{parsed[f"{type}s"][source]["Amount"]}-{parsed[f"{type}s"][source]["Repeated"]}-{parsed[f"{type}s"][source]["Description"]}')
-
-    return result
-
 
 def is_existing(source) -> bool:
     splitted = source.split("-")
@@ -77,17 +68,23 @@ def check_incomes() -> None:
         if is_existing(source):
             pass
         else: 
-            file = read_index("income")
-            with open(file, "a") as f: 
+            with open(read_index("income"), "a") as f: 
                 writer = csv.DictWriter(f, fieldnames=FIELD_NAMES, delimiter=",", lineterminator="\n")
 
                 splitted = source.split("-")
+                
+                if splitted[4]: 
+                    day = datetime.today().day
+                    month = MONTHS[(datetime.now().month)-1]
+                    year = datetime.today().year
 
-                day = datetime.today().day
-                month = MONTHS[(datetime.now().month)-1]
-                year = datetime.today().year
+                    writer.writerow({"Amount": round(convert(float(splitted[1]), splitted[4], get_currency()[0]), 2), "Day": day, "Month": month, "Year": year, "Description": f"Routine {splitted[0]}"}) 
+                else: 
+                    day = datetime.today().day
+                    month = MONTHS[(datetime.now().month)-1]
+                    year = datetime.today().year
 
-                writer.writerow({"Amount": splitted[1], "Day": day, "Month": month, "Year": year, "Description": f"Routine {splitted[0]}"}) 
+                    writer.writerow({"Amount": splitted[1], "Day": day, "Month": month, "Year": year, "Description": f"Routine {splitted[0]}"}) 
 
                 f.close()
 

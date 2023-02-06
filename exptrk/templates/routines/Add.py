@@ -4,13 +4,15 @@
 # and is released under the "MIT License Agreement". Please see the LICENSE
 # file that should have been included as part of this package.
 
-from PyQt5.QtWidgets import QDialog, QPushButton, QComboBox, QLineEdit, QTextEdit, QLabel, QVBoxLayout, QHBoxLayout, QDoubleSpinBox, QMessageBox
+from PyQt5.QtWidgets import QDialog, QPushButton, QComboBox, QLineEdit, QCheckBox, QLabel, QVBoxLayout, QHBoxLayout, QDoubleSpinBox, QMessageBox
 from PyQt5.QtGui import QIcon
 
 from exptrk.templates.dialogs.Confirm import Confirm
 
 from exptrk.utils.get_categorys import get_categorys
 from exptrk.utils.read_index import read_index
+from exptrk.utils.get_currency import get_currency
+from exptrk.api.convert import generate_symbol_list, convert
 
 from exptrk.const import ROUTINES, TYPES_OF_FLOWS
 
@@ -63,6 +65,29 @@ class Add_Window(QDialog):
 
         # ----------------------------
 
+        # Foreign currency 
+
+        self.foreign_currency = QCheckBox("Foreign currency", self)
+        self.foreign_currency.stateChanged.connect(self.state_switch)
+
+        self.check_box_layout = QHBoxLayout()
+        self.check_box_layout.addStretch()
+        self.check_box_layout.addWidget(self.foreign_currency)
+
+        self.currency_label = QLabel("Currency:")
+        self.currency_label.hide()
+
+        self.currencys = QComboBox(self)
+        self.currencys.setToolTip("Select the foreign currency")
+
+        self.currencys.addItems(generate_symbol_list())
+        self.currencys.hide()
+        self.currency_layout = QHBoxLayout()
+        self.currency_layout.addWidget(self.currency_label)
+        self.currency_layout.addWidget(self.currencys)
+
+        # ----------------------------
+
         # Repeatment
 
         self.repeat_label = QLabel("Repeat:")
@@ -91,16 +116,8 @@ class Add_Window(QDialog):
 
         # Description
 
-        self.descr_label = QLabel("More Information:")
-
-        self.descr = QTextEdit(self)
-        self.descr.setPlaceholderText("More information")
-        self.descr.setFixedHeight(60)
-        self.descr.setFixedWidth(200)
-
-        self.descr_layout = QHBoxLayout()
-        self.descr_layout.addWidget(self.descr_label)
-        self.descr_layout.addWidget(self.descr)
+        self.description = QLineEdit(self)
+        self.description.setPlaceholderText("Description")
 
         # ----------------------------
 
@@ -112,9 +129,10 @@ class Add_Window(QDialog):
         self.root.addLayout(self.type_money_layout)
         self.root.addLayout(self.name_layout)
         self.root.addLayout(self.amount_layout)
+        self.root.addWidget(self.foreign_currency)
         self.root.addLayout(self.rep_layout)
         self.root.addLayout(self.category_layout)
-        self.root.addLayout(self.descr_layout)
+        self.root.addWidget(self.description)
         self.root.addWidget(self.addbtn)
 
         self.setWindowTitle("Create routine")
@@ -129,34 +147,77 @@ class Add_Window(QDialog):
         amount = self.amount.value()
         repeat = self.repeat.currentText()
         category = self.category.currentText()
-        description = self.descr.toPlainText()
+        description = self.description.text()
+        state = self.foreign_currency.isChecked()
 
         with open(read_index("user"), "r") as f: 
             parsed = json.load(f)
             f.close()
 
         with open(read_index("user"), "w") as f: 
-            f.close()
+                f.close()
 
-        if name in parsed[f"{type_money}s"]:
-            dialog = Confirm(300, 300, "Warning", "This name is already existing, do you want to overwrite it?", "assets/warning.png") 
-            rep = dialog.exec_()
 
-            if rep == QMessageBox.Apply: 
+        if state: 
+            if name in parsed[f"{type_money}s"]:
+                dialog = Confirm(300, 300, "Warning", "This name is already existing, do you want to overwrite it?", "assets/warning.png") 
+                rep = dialog.exec_()
+
+                if rep == QMessageBox.Apply: 
+                    with open(read_index("user"), "w") as f: 
+                        parsed[f"{type_money}s"][name] = {"Name": name, "Currency": self.currencys.currentText(), "Amount": amount, "Repeated" : repeat, "Category": category, "Description": description}
+                        json.dump(parsed, f, indent=4, sort_keys=False)
+                        f.close() 
+                else: 
+                    with open(read_index("user"), "w") as f: 
+                        json.dump(parsed, f, indent=4, sort_keys=False)
+                        f.close() 
+
+            else:
+                with open(read_index("user"), "w") as f: 
+                    parsed[f"{type_money}s"][name] = {"Name": name, "Currency": self.currencys.currentText(), "Amount": amount, "Repeated" : repeat, "Category": category, "Description": description}
+                    json.dump(parsed, f, indent=4, sort_keys=False)
+                    f.close()
+        else: 
+            if name in parsed[f"{type_money}s"]:
+                dialog = Confirm(300, 300, "Warning", "This name is already existing, do you want to overwrite it?", "assets/warning.png") 
+                rep = dialog.exec_()
+
+                if rep == QMessageBox.Apply: 
+                    with open(read_index("user"), "w") as f: 
+                        parsed[f"{type_money}s"][name] = {"Name": name, "Amount": amount, "Repeated" : repeat, "Category": category, "Description": description}
+                        json.dump(parsed, f, indent=4, sort_keys=False)
+                        f.close() 
+                else: 
+                    with open(read_index("user"), "w") as f: 
+                        json.dump(parsed, f, indent=4, sort_keys=False)
+                        f.close() 
+
+            else:
                 with open(read_index("user"), "w") as f: 
                     parsed[f"{type_money}s"][name] = {"Name": name, "Amount": amount, "Repeated" : repeat, "Category": category, "Description": description}
                     json.dump(parsed, f, indent=4, sort_keys=False)
-                    f.close() 
-            else: 
-                with open(read_index("user"), "w") as f: 
-                    json.dump(parsed, f, indent=4, sort_keys=False)
-                    f.close() 
-
-        else:
-            with open(read_index("user"), "w") as f: 
-                parsed[f"{type_money}s"][name] = {"Name": name, "Amount": amount, "Repeated" : repeat, "Category": category, "Description": description}
-                json.dump(parsed, f, indent=4, sort_keys=False)
-                f.close()
+                    f.close()
 
         self.close()
 
+    def state_switch(self):
+        if self.foreign_currency.isChecked():
+            self.currency_label.show()
+            self.currencys.show()
+
+            self.root.removeItem(self.category_layout)
+            self.root.removeItem(self.rep_layout)
+            self.root.removeWidget(self.description)
+            self.root.removeWidget(self.addbtn)
+
+            self.root.addLayout(self.currency_layout)
+            self.root.addLayout(self.category_layout)
+            self.root.addLayout(self.rep_layout)
+            self.root.addWidget(self.description)
+            self.root.addWidget(self.addbtn)
+        else: 
+            self.currency_label.hide()
+            self.currencys.hide()
+
+            self.root.removeItem(self.currency_layout)
