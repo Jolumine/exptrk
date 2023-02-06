@@ -22,4 +22,4 @@ ROUTINES = ["daily", "monthly", "yearly"]
 TYPES_OF_FLOWS = ["Expense", "Income"]
 
 # Settings std
-CURRENCYS = ["USD/$", "Euro/€", "Yen/\u00A5", "Pound/\u00A3"]
+CURRENCYS = ["USD/$", "EUR/€", "JPY/\u00A5", "GBP/\u00A3"]
