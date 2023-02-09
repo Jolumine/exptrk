@@ -24,6 +24,6 @@ def get_entrys(type:str) -> list[str]:
             if row["Amount"] == "Amount": 
                 pass 
             else: 
-                result.append(f'{row["Amount"]}{get_currency()[1]}-{row["Day"]}-{row["Month"]}-{row["Year"]}')
+                result.append(f'{row["ID"]}-{row["Amount"]}{get_currency()[1]}-{row["Day"]}-{row["Month"]}-{row["Year"]}')
 
     return result

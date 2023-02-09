@@ -59,7 +59,7 @@ class Delete_Window(QDialog):
             with open(read_index(self.type.currentText().lower()), "r", newline="") as file: 
                 reader = csv.DictReader(file)
                 for row in reader: 
-                    if row["Amount"] + f"{get_currency()[1]}" == splitted[0] and row["Day"] == splitted[1] and row["Month"] == splitted[2] and row["Year"] == splitted[3]:
+                    if row["ID"] == splitted[0] and row["Amount"] + f"{get_currency()[1]}" == splitted[1] and row["Day"] == splitted[2] and row["Month"] == splitted[3] and row["Year"] == splitted[4]:
                         pass 
                     else: 
                         update.append(row)
@@ -68,18 +68,19 @@ class Delete_Window(QDialog):
                 f.close()
 
             with open(read_index(self.type.currentText().lower()), "a", newline="") as f: 
-                f.write("Amount,Day,Month,Year,Description\n")
+                f.write("ID,Amount,Day,Month,Year,Description\n")
 
                 writer = csv.DictWriter(f, fieldnames=FIELD_NAMES, delimiter=",")
 
                 for i in range(len(update)):
+                    id = update[i]["ID"]
                     amount = update[i]["Amount"]
                     day = update[i]["Day"]
                     month = update[i]["Month"]
                     year = update[i]["Year"]
                     description = update[i]["Description"]
 
-                    row = {"Amount": amount, "Day" : day, "Month" : month, "Year": year, "Description": description}
+                    row = {"ID": id, "Amount": amount, "Day" : day, "Month" : month, "Year": year, "Description": description}
                     writer.writerow(row)
         else: 
             pass

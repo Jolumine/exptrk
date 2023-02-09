@@ -11,6 +11,7 @@ from exptrk.api.convert import convert, generate_symbol_list
 
 from exptrk.utils.read_index import read_index
 from exptrk.utils.get_currency import get_currency
+from exptrk.utils.get_new_id import get_id
 
 from exptrk.const import DAYS, MONTHS, YEARS, FIELD_NAMES, TYPES_OF_FLOWS, CURRENCYS
 
@@ -150,7 +151,7 @@ class Add_Window(QDialog):
         day = self.day.currentText()
         month = self.month.currentText()
         year = self.year.currentText()
-        descr = self.descr.text()
+        descr = self.description.text()
         state = self.foreign_currency.isChecked()
 
         if state: 
@@ -158,6 +159,7 @@ class Add_Window(QDialog):
                 writer = csv.DictWriter(f, fieldnames=FIELD_NAMES, lineterminator="\n")
 
                 data = {
+                    "ID": get_id(self.type.currentText().lower()),
                     "Amount": round(convert(amount, self.currencys.currentText().split("-")[0], get_currency()[0]), 2), 
                     "Day": day, 
                     "Month": month, 
@@ -172,6 +174,7 @@ class Add_Window(QDialog):
                 writer = csv.DictWriter(f, fieldnames=FIELD_NAMES, lineterminator="\n")
 
                 data = {
+                    "ID": get_id(self.type.currentText().lower()),
                     "Amount": amount, 
                     "Day": day, 
                     "Month": month, 

@@ -13,7 +13,7 @@ MONTHS = ["January", "February", "March", "April", "May", "June", "July", "Augus
 YEARS = [str(i) for i in range(datetime.datetime.now().year-5, datetime.datetime.now().year+10)]
 
 # CSV 
-FIELD_NAMES = ["Amount", "Day", "Month", "Year", "Description"]
+FIELD_NAMES = ["ID", "Amount", "Day", "Month", "Year", "Description"]
 
 # Passive income
 ROUTINES = ["daily", "monthly", "yearly"]

@@ -22,11 +22,11 @@ class Setup:
                 f.close()
 
             with open(f"{self.ROOT}/expenses.csv", "w") as f: 
-                f.write("Amount,Day,Month,Year,Description\n")
+                f.write("ID,Amount,Day,Month,Year,Description\n")
                 f.close()
 
             with open(f"{self.ROOT}/incomes.csv", "w") as f: 
-                f.write("Amount,Day,Month,Year,Description\n")
+                f.write("ID,Amount,Day,Month,Year,Description\n")
                 f.close()
 
             with open(f"{self.ROOT}/settings.json", "w") as f: 
