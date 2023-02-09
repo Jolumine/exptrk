@@ -39,6 +39,17 @@ class Dashboard(QWidget):
 
         self.plot_index = 0
 
+        # Reload button 
+
+        self.reload_button = QPushButton("", self)
+        self.reload_button.setIcon(QIcon("assets/reload.png"))
+        self.reload_button.setToolTip("Click to reload data")
+        self.reload_button.clicked.connect(self.close)
+
+        self.reload_layout = QHBoxLayout()
+        self.reload_layout.addStretch()
+        self.reload_layout.addWidget(self.reload_button)
+
         # Expenses
 
         self.expenses_label = QLabel("Expenses:")
@@ -141,6 +152,7 @@ class Dashboard(QWidget):
         self.settings_button.clicked.connect(self.open_settings)
 
         self.root = QVBoxLayout()
+        self.root.addLayout(self.reload_layout)
         self.root.addLayout(self.upper_section)
         self.root.addLayout(self.charts_layout)
         self.root.addLayout(self.graph_button_layout)
