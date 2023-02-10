@@ -7,7 +7,7 @@ Desktop application build with Python and PyQt5. Gives the possibility to keep t
 ```bash
 git clone https://github.com/Jolumine/exp-trk.git
 cd exp-trk
-pip install bin/exptrk-3.1.2-py3-none-any.whl
+pip install bin/exptrk-3.2.2-py3-none-any.whl
 python run.py
 ```
 
