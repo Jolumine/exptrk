@@ -9,7 +9,7 @@ from PyQt5.QtGui import QIcon
 
 class Confirm(QMessageBox):
     def __init__(self, x:int, y:int, title: str, text:str, logo:str, parent=None):
-        super().__init__()
+        super().__init__(parent)
 
         self.setWindowTitle(title)
         self.setText(text)

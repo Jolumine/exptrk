@@ -44,7 +44,7 @@ class Dashboard(QWidget):
         self.reload_button = QPushButton("", self)
         self.reload_button.setIcon(QIcon("assets/reload.png"))
         self.reload_button.setToolTip("Click to reload data")
-        self.reload_button.clicked.connect(self.close)
+        self.reload_button.clicked.connect(self.render)
 
         self.reload_layout = QHBoxLayout()
         self.reload_layout.addStretch()

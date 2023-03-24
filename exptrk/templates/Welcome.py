@@ -7,6 +7,8 @@
 from PyQt5.QtWidgets import QDialog, QPushButton, QVBoxLayout, QLabel, QLineEdit
 from PyQt5.QtGui import QIcon
 
+from exptrk.templates.dialogs.Error import Error
+
 import json 
 
 
@@ -57,7 +59,7 @@ class Welcome_Interface(QDialog):
         com = self.company.text()
 
         if fname == "" or lname == "": 
-            pass # TODO Error 
+            window = Error(200, 300, "Error", "Please fill names.")
         else:
             self.click = True
             user_data = {

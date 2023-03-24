@@ -9,6 +9,7 @@ from PyQt5.QtGui import QIcon
 
 from exptrk.templates.settings.Modify.Modify import Modify_Window
 from exptrk.templates.dialogs.Confirm import Confirm
+from exptrk.templates.dialogs.Error import Error
 
 from exptrk.utils.get_currency import get_currency
 from exptrk.utils.get_categorys import get_categorys
@@ -142,53 +143,54 @@ class Settings(QDialog):
         self.delete_category.setDisabled(False)
     
     def confirm_creation(self):
-        window = Confirm(200, 300, "Confirm", "Confirm the creation.", "assets/confirm.png")
-        rep = window.exec_()
-
-        if rep == QMessageBox.Apply:
-            with open(self.user, "r") as f: 
-                parsed = json.load(f)
-                f.close()
-
-            parsed["Categorys"].append(self.create_name.text())
-
-            with open(self.user, "w") as f: 
-                json.dump(parsed, f, indent=4, sort_keys=False)
-
-            self.root.removeItem(self.toggled_layout)
-            self.confirm.hide()
-            self.cancel.hide()
-            self.create_name.hide()
-            self.create_category.setDisabled(False)
-            self.delete_category.setDisabled(False)
-
-            self.render()
-        else: 
-            self.cancel_creation()
-
-
-    def delete(self): 
-        selected = self.categorys.currentText()
-
-        if selected != "":
-            window = Confirm(200, 300, "Confirm", "Confirm the deletion.", "assets/confirm.png")
+        if self.create_name.text() != "":
+            window = Confirm(200, 300, "Confirm", "Confirm the creation.", "assets/confirm.png")
             rep = window.exec_()
+
             if rep == QMessageBox.Apply:
                 with open(self.user, "r") as f: 
                     parsed = json.load(f)
                     f.close()
 
+                parsed["Categorys"].append(self.create_name.text())
+
                 with open(self.user, "w") as f: 
-                    parsed["Categorys"].remove(selected)
                     json.dump(parsed, f, indent=4, sort_keys=False)
-                    f.close()
+
+                self.root.removeItem(self.toggled_layout)
+                self.confirm.hide()
+                self.cancel.hide()
+                self.create_name.hide()
+                self.create_category.setDisabled(False)
+                self.delete_category.setDisabled(False)
 
                 self.render()
             else: 
-                pass
+                self.cancel_creation()
         else: 
-            # TODO Add error
+            window = Error(200, 300, "Error", "No name entered")
+            window.exec_()
+
+
+    def delete(self): 
+        selected = self.categorys.currentText()
+
+        window = Confirm(200, 300, "Confirm", "Confirm the deletion.", "assets/confirm.png")
+        rep = window.exec_()
+        if rep == QMessageBox.Apply:
+            with open(self.user, "r") as f: 
+                parsed = json.load(f)
+                f.close()
+
+            with open(self.user, "w") as f: 
+                parsed["Categorys"].remove(selected)
+                json.dump(parsed, f, indent=4, sort_keys=False)
+                f.close()
+
+            self.render()
+        else: 
             pass
+        
 
 
     def modify_user(self): 
