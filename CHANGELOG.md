@@ -29,7 +29,11 @@ New feature: currency conversion
 #7 Created
 #9 Fixed
 
-## Release 3.2.3 Patch (09/06/2023)
+## Release 3.2.3 Patch for 3.2.2 (10/02/2023)
+
+Bug fixes
+
+## Release 3.2.4 Patch (09/06/2023)
 
 New features: 
 Date on Dashboard 
@@ -38,3 +42,4 @@ Export window in settings
 Bug fixes: 
 Plots 
 Unique ID 
+
