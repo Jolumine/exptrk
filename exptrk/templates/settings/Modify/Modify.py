@@ -42,7 +42,7 @@ class Modify_Window(QDialog):
 
         self.setWindowTitle("Modify Menu")
         self.setWindowIcon(QIcon("assets/modify.png"))
-        self.setGeometry(100, 300, 500, 350)
+        self.setGeometry(175, 300, 500, 350)
         self.setLayout(self.root)
         self.exec_()
 

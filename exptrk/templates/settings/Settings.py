@@ -7,13 +7,16 @@
 from PyQt5.QtWidgets import QPushButton, QDialog, QComboBox, QLabel, QHBoxLayout, QVBoxLayout, QMessageBox, QLineEdit
 from PyQt5.QtGui import QIcon
 
-from exptrk.templates.settings.Modify.Modify import Modify_Window
+from exptrk.templates.settings.modify.Modify import Modify_Window
+from exptrk.templates.settings.export.Export import Export_Window
+
 from exptrk.templates.dialogs.Confirm import Confirm
 from exptrk.templates.dialogs.Error import Error
 
 from exptrk.utils.get_currency import get_currency
 from exptrk.utils.get_categorys import get_categorys
 from exptrk.utils.read_index import read_index
+
 from exptrk.const import CURRENCYS
 
 import json
@@ -79,7 +82,11 @@ class Settings(QDialog):
 
         self.modify_button = QPushButton("Modify", self)
         self.modify_button.setToolTip("Click to modify the user information.")
-        self.modify_button.clicked.connect(self.modify_user)
+        self.modify_button.clicked.connect(self.open_mod)
+
+        self.export_button = QPushButton("Export", self)
+        self.export_button.setToolTip("Click to open the export menu.")
+        self.export_button.clicked.connect(self.open_export)
 
         self.savebtn = QPushButton("Save", self)
         self.savebtn.setToolTip("Click to save the selected settings.")
@@ -103,6 +110,7 @@ class Settings(QDialog):
         self.root.addLayout(self.currency_layout)
         self.root.addLayout(self.categorys_layout)
         self.root.addLayout(self.mod_layout)
+        self.root.addWidget(self.export_button)
         self.root.addWidget(self.savebtn)
 
         self.setWindowTitle("Settings")
@@ -193,8 +201,11 @@ class Settings(QDialog):
         
 
 
-    def modify_user(self): 
+    def open_mod(self): 
         return Modify_Window()
+    
+    def open_export(self):
+        return Export_Window()
 
     def save(self):
         currency = self.currencys.currentText()
