@@ -33,14 +33,17 @@ class CanvasComplexBar(FigureCanvasQTAgg):
         super().__init__(fig)
 
         self.x = np.arange(start, stop)
+        print(stop)
+        print(start)
 
         self.axes.legend(legend)
-        self.axes.set_xticks(self.x)
+        
         self.axes.set_title(title)
+        self.axes.set_xticks(self.x, x)
         self.axes.set_xlabel(xlabel)
         self.axes.set_ylabel(ylabel)
-        self.axes.bar(x, input_tuple[1], 0.2, color='black')
-        self.axes.bar(x, input_tuple[0], 0.2, color="red")
+        self.axes.bar(self.x-0.1, input_tuple[1], 0.2, color='black')
+        self.axes.bar(self.x+0.1, input_tuple[0], 0.2, color="red")
 
 
 class CanvasSimpleLine(FigureCanvasQTAgg):
@@ -66,8 +69,4 @@ class CanvasComplexLine(FigureCanvasQTAgg):
         self.axes.set_ylabel(ylabel)
         self.axes.plot(x1, y1, color='red')
         self.axes.plot(x2, y2, color='black')
-
-
-
-
 

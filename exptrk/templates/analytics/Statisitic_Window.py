@@ -172,9 +172,8 @@ class Statistic_Window(QDialog):
             # Difference of selected year
             amounts = Generate_Values.calculate_difference(year_selection)
             self.root.removeWidget(self.plot)
-            self.plot = CanvasComplexBar(amounts, MONTHS, 0, 13, f"Comparison beetween Expense and Income in {year_selection}", "Months", "Amounts", ["Expense", "Income"])
+            self.plot = CanvasComplexBar(amounts, MONTHS, 0, 12, f"Comparison beetween Expense and Income in {year_selection}", "Months", "Amounts", ["Expense", "Income"])
             self.root.addWidget(self.plot)
-
         elif month_selection == "All" and option != "Difference": 
             # Bar plot of selected type and year
             self.root.removeWidget(self.plot)
@@ -186,9 +185,8 @@ class Statistic_Window(QDialog):
             self.root.removeWidget(self.plot)
             income_scatter = Generate_Values.get_scatter("Income", month=month_selection, year=year_selection)
             expense_scatter = Generate_Values.get_scatter("Expense", month=month_selection, year=year_selection)
-            self.plot = CanvasComplexBar((expense_scatter, income_scatter), 1, 32, f"Comparison beetween Expense and Income in {month_selection}", "Day", "Amounts", ["Expense", "Income"], [str(i) for i in range(1, 32)])
+            self.plot = CanvasComplexBar((expense_scatter, income_scatter),  [str(i) for i in range(1, 32)], 1, 32, f"Comparison beetween Expense and Income in {month_selection}", "Day", "Amounts", ["Expense", "Income"])
             self.root.addWidget(self.plot)
-            
         else: 
             # Scattering option over the selected month
             amounts = Generate_Values.get_scatter(option, month=month_selection, year=year_selection)
@@ -235,4 +233,3 @@ class Statistic_Window(QDialog):
             self.switch_button.hide()
         
 
-    

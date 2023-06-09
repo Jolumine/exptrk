@@ -7,12 +7,16 @@
 from PyQt5.QtChart import QChartView, QChart, QPieSlice, QPieSeries
 from PyQt5.QtCore import Qt
 
+from exptrk.utils.get_currency import get_currency
+
 
 class PieChart: 
-    def __init__(self, title:str, color1:Qt.GlobalColor, color2:Qt.GlobalColor, sub_title_1:str, sub_title_2:str, expense:float, income:float, currency:str) -> None:
+    def __init__(self, title:str, color1:Qt.GlobalColor, color2:Qt.GlobalColor, sub_title_1:str, sub_title_2:str, expense:float, income:float) -> None:
+        self.currency = get_currency()
+
         self.series = QPieSeries()
-        self.series.append(f"{sub_title_1} {expense}{currency}", expense)
-        self.series.append(f"{sub_title_2} {income}{currency}", income)
+        self.series.append(f"{sub_title_1} {expense}{self.currency[1]}", expense)
+        self.series.append(f"{sub_title_2} {income}{self.currency[1]}", income)
 
         self.chart = QChart()
         self.chart.legend().hide()
