@@ -5,6 +5,7 @@ import random
 import datetime
 
 from exptrk.const import DAYS, FIELD_NAMES, MONTHS
+from exptrk.utils.get_new_id import get_id
 from clear import clear
 
 folder = os.path.join(os.path.abspath("."), ".data")
@@ -64,7 +65,7 @@ def create_routines():
 
 def create_normal():
     for i in range(1000): 
-        row = {"Amount": random.randint(1, 150), "Day": random.choice(DAYS), "Month": random.choice(MONTHS), "Year": str(datetime.datetime.today().year), "Description": "Testdata"} 
+        row = {"ID":get_id("expense"), "Amount": random.randint(1, 150), "Day": random.choice(DAYS), "Month": random.choice(MONTHS), "Year": str(datetime.datetime.today().year), "Description": "Testdata"} 
 
         with open(f"{folder}/expenses.csv", "a") as f: 
             writer = csv.DictWriter(f, fieldnames=FIELD_NAMES, lineterminator="\n", delimiter=",")
@@ -72,7 +73,7 @@ def create_normal():
             f.close()
     
     for i in range(1000): 
-        row = {"Amount": random.randint(1, 150), "Day": random.choice(DAYS), "Month": random.choice(MONTHS), "Year": str(datetime.datetime.today().year), "Description": "Testdata"} 
+        row = {"ID":get_id("income"), "Amount": random.randint(1, 150), "Day": random.choice(DAYS), "Month": random.choice(MONTHS), "Year": str(datetime.datetime.today().year), "Description": "Testdata"} 
 
         with open(f"{folder}/incomes.csv", "a") as f: 
             writer = csv.DictWriter(f, fieldnames=FIELD_NAMES, lineterminator="\n", delimiter=",")
