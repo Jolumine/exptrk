@@ -22,3 +22,19 @@ Added UI screenshots to the README.md
 ---
 
 New feature: currency conversion
+
+## Release 3.2.2 Update (10/02/2023)
+
+#1 Fixed
+#7 Created
+#9 Fixed
+
+## Release 3.2.3 Patch (09/06/2023)
+
+New features: 
+Date on Dashboard 
+Export window in settings
+
+Bug fixes: 
+Plots 
+Unique ID 
