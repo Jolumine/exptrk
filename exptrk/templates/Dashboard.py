@@ -41,12 +41,15 @@ class Dashboard(QWidget):
 
         # Reload button 
 
+        self.date = QLabel(f"{datetime.datetime.today().date()}", self)
+
         self.reload_button = QPushButton("", self)
         self.reload_button.setIcon(QIcon("assets/reload.png"))
         self.reload_button.setToolTip("Click to reload data")
         self.reload_button.clicked.connect(self.render)
 
         self.reload_layout = QHBoxLayout()
+        self.reload_layout.addWidget(self.date)
         self.reload_layout.addStretch()
         self.reload_layout.addWidget(self.reload_button)
 
@@ -105,10 +108,10 @@ class Dashboard(QWidget):
         # Graphs
 
         self.chart_1 = PieChart(f"Expenses | Incomes in {self.current_month}", Qt.GlobalColor.red, Qt.GlobalColor.darkGreen, "Expense", "Income", 
-            Generate_Stats.get_expenses_sum(self.current_month), Generate_Stats.get_income_sum(self.current_month), self.currency_icon).get_chartview()
+            Generate_Stats.get_expenses_sum(self.current_month), Generate_Stats.get_income_sum(self.current_month)).get_chartview()
 
         self.chart_2 = PieChart("Routines", Qt.GlobalColor.darkBlue, Qt.GlobalColor.darkYellow, "Expense", "Income", 
-            Generate_Stats.get_sum_passive_exp(), Generate_Stats.get_sum_passive_in(), self.currency_icon).get_chartview()
+            Generate_Stats.get_sum_passive_exp(), Generate_Stats.get_sum_passive_in()).get_chartview()
 
         self.charts_layout = QHBoxLayout()
         self.charts_layout.addWidget(self.chart_1)
@@ -196,14 +199,16 @@ class Dashboard(QWidget):
     def render_bar(self) -> None: 
         self.chart_1 = CanvasSimpleBar(["Income", "Expense", "Profit"], [Generate_Stats.get_income_sum(self.current_month), Generate_Stats.get_expenses_sum(self.current_month), 
             (Generate_Stats.get_income_sum(self.current_month)-Generate_Stats.get_expenses_sum(self.current_month))], f"Incomes | Expenses in {self.current_month}", "", "", ["green", "red", "black"]) 
+        
         self.chart_2 = CanvasSimpleBar(["Income", "Expense", "Profit"], [Generate_Stats.get_sum_passive_in(), Generate_Stats.get_sum_passive_exp(), 
             (Generate_Stats.get_sum_passive_in()-Generate_Stats.get_sum_passive_exp())], "Monthly balance", "", "", ["green", "red", "black"])  
 
     def render_pie(self) -> None: 
         self.chart_1 = PieChart(f"Expenses | Incomes in {self.current_month}", Qt.GlobalColor.red, Qt.GlobalColor.darkGreen, "Expense", "Income", 
-            Generate_Stats.get_expenses_sum(self.current_month), Generate_Stats.get_income_sum(self.current_month), self.currency_icon).get_chartview()
+            Generate_Stats.get_expenses_sum(self.current_month), Generate_Stats.get_income_sum(self.current_month)).get_chartview()
+        
         self.chart_2 = PieChart("Routines", Qt.GlobalColor.darkBlue, Qt.GlobalColor.darkYellow, "Expense", "Income", 
-            Generate_Stats.get_sum_passive_exp(), Generate_Stats.get_sum_passive_in(), self.currency_icon).get_chartview()
+            Generate_Stats.get_sum_passive_exp(), Generate_Stats.get_sum_passive_in()).get_chartview()
 
     def next_plot(self) -> None: 
         if self.plot_index == 0: 
