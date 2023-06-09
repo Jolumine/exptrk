@@ -73,14 +73,14 @@ class Delete_Window(QDialog):
                 writer = csv.DictWriter(f, fieldnames=FIELD_NAMES, delimiter=",")
 
                 for i in range(len(update)):
-                    id = update[i]["ID"]
+                    id_ = update[i]["ID"]
                     amount = update[i]["Amount"]
                     day = update[i]["Day"]
                     month = update[i]["Month"]
                     year = update[i]["Year"]
                     description = update[i]["Description"]
 
-                    row = {"ID": id, "Amount": amount, "Day" : day, "Month" : month, "Year": year, "Description": description}
+                    row = {"ID": id_, "Amount": amount, "Day" : day, "Month" : month, "Year": year, "Description": description}
                     writer.writerow(row)
         else: 
             pass

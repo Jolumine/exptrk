@@ -195,14 +195,14 @@ class Add_Window(QDialog):
             self.root.removeItem(self.day_layout)
             self.root.removeItem(self.month_layout)
             self.root.removeItem(self.year_layout)
-            self.root.removeWidget(self.descr)
+            self.root.removeWidget(self.description)
             self.root.removeWidget(self.add)
 
             self.root.addLayout(self.currency_layout)
             self.root.addLayout(self.day_layout)
             self.root.addLayout(self.month_layout)
             self.root.addLayout(self.year_layout)
-            self.root.addWidget(self.descr)
+            self.root.addWidget(self.description)
             self.root.addWidget(self.add)
         else: 
             self.currency_label.hide()
