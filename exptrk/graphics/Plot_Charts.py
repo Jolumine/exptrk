@@ -33,9 +33,6 @@ class CanvasComplexBar(FigureCanvasQTAgg):
         super().__init__(fig)
 
         self.x = np.arange(start, stop)
-        print(stop)
-        print(start)
-
         self.axes.legend(legend)
         
         self.axes.set_title(title)
