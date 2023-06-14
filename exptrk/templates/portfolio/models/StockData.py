@@ -1,0 +1,2 @@
+class StockData: 
+    pass 

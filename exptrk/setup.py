@@ -13,7 +13,6 @@ class Setup:
     def __init__(self):
         self.dirs()
         
-
     def dirs(self) -> None:
         if not self.check(self.ROOT):
             os.mkdir("./.data/")
@@ -35,6 +34,15 @@ class Setup:
                 }
                 json.dump(settings, f, indent=4, sort_keys=False)
                 f.close()
+            
+            with open(f"{self.ROOT}/portfolio.json", "w") as f: 
+                portfolio = {
+                    "assets": {}, 
+                    "value": 0, 
+                    "deposits": 0
+                }
+                json.dump(portfolio, f, indent=4, sort_keys=False)
+                f.close()
 
             with open(f"index.json", "w") as f: 
                 index = {
@@ -42,7 +50,15 @@ class Setup:
                     "expense": os.path.join(os.path.abspath(self.ROOT), "expenses.csv"), 
                     "income": os.path.join(os.path.abspath(self.ROOT), "incomes.csv"), 
                     "settings": os.path.join(os.path.abspath(self.ROOT), "settings.json"),
-                    "logs": os.path.join(os.path.abspath(self.ROOT), "logs.log")
+                    "logs": os.path.join(os.path.abspath(self.ROOT), "logs.log"), 
+                    "portfolio": os.path.join(os.path.abspath(self.ROOT), "portfolio.json"), 
+                    "records": 
+                    {
+                        "cryptos": os.path.join(os.path.abspath("./exptrk/templates/portfolio/records"), "cryptos.json"), 
+                        "currencys": os.path.join(os.path.abspath("./exptrk/templates/portfolio/records"), "currencys.json"), 
+                        "markets": os.path.join(os.path.abspath("./exptrk/templates/portfolio/records"), "markets.json"), 
+                        "popular": os.path.join(os.path.abspath("./exptrk/templates/portfolio/records"), "popular.json")
+                    }
                 }
                 json.dump(index, f, indent=4, sort_keys=False)
                 f.close()

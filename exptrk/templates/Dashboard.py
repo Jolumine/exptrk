@@ -12,14 +12,17 @@ from exptrk.templates.settings.Settings import Settings
 
 from exptrk.templates.basic.Add import Add_Window
 from exptrk.templates.basic.Delete import Delete_Window
+
 from exptrk.utils.get_entrys import get_entrys
 from exptrk.utils.get_currency import get_currency
+from exptrk.utils.get_person_data import get_person_data
 
 from exptrk.templates.routines.Routines import Routines
 from exptrk.templates.routines.validation.check_incomes import check_incomes
 from exptrk.templates.routines.validation.check_expenses import check_expenses
 
 from exptrk.templates.analytics.Statisitic_Window import Statistic_Window
+from exptrk.templates.portfolio.Overview import PortfolioOverview
 from exptrk.graphics.Plot_Charts import CanvasSimpleBar
 from exptrk.graphics.Pie_Widget import PieChart
 
@@ -37,11 +40,11 @@ class Dashboard(QWidget):
 
         self.current_month = MONTHS[(datetime.datetime.now().month)-1]
 
+        self.date = QLabel(str(datetime.date.today()), self)
+
         self.plot_index = 0
 
         # Reload button 
-
-        self.date = QLabel(f"{datetime.datetime.today().date()}", self)
 
         self.reload_button = QPushButton("", self)
         self.reload_button.setIcon(QIcon("assets/reload.png"))
@@ -146,6 +149,10 @@ class Dashboard(QWidget):
         self.plot_button.setToolTip("Click to open the analytics")
         self.plot_button.clicked.connect(self.open_analytics)
 
+        self.portfolio_button = QPushButton("Portfolio", self)
+        self.portfolio_button.setToolTip("Click to open your portfolio")
+        self.portfolio_button.clicked.connect(self.open_portfolio)
+
         self.routines_button = QPushButton("Routines", self)
         self.routines_button.setToolTip("Click to open the menu for repeated routines.")
         self.routines_button.clicked.connect(self.open_routines)
@@ -160,6 +167,7 @@ class Dashboard(QWidget):
         self.root.addLayout(self.charts_layout)
         self.root.addLayout(self.graph_button_layout)
         self.root.addWidget(self.plot_button)
+        self.root.addWidget(self.portfolio_button)
         self.root.addWidget(self.routines_button)
         self.root.addWidget(self.settings_button)
 
@@ -231,6 +239,10 @@ class Dashboard(QWidget):
     @staticmethod
     def open_analytics():
         return Statistic_Window()
+    
+    @staticmethod
+    def open_portfolio(): 
+        return PortfolioOverview()
 
     def open_routines(self) -> None:
         Routines()

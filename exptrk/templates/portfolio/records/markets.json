@@ -1,0 +1,23 @@
+{
+    "New York Stock Exchange": {
+        "Icon": "assets/countrys/usa.png"
+    }, 
+    "NASDAQ": {
+        "Icon": "assets/countrys/usa.png"
+    }, 
+    "London Stock Exchange": {
+        "Icon": "assets/countrys/united-kingdom.png"
+    }, 
+    "Amsterdam Stock Exchange": {
+        "Icon": "assets/countrys/netherlands.png"
+    }, 
+    "Frankfurt Stock Exchange (Xetra)": {
+        "Icon": "assets/countrys/germany.png"
+    },
+    "Tokyo Stock Exchange": {
+        "Icon": "assets/countrys/japan.png"
+    }, 
+    "Hong Kong Stock Exchange": {
+        "Icon": "assets/countrys/china.png"
+    }
+}

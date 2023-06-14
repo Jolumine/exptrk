@@ -1,0 +1,86 @@
+{
+    "Apple": {
+        "Symbol": "", 
+        "Icon": "assets/companys/apple.png"
+    }, 
+    "Google": {
+        "Symbol": "", 
+        "Icon": "assets/companys/google.png"
+    }, 
+    "Amazon": {
+        "Symbol": "", 
+        "Icon": "assets/companys/amazon.png"
+    }, 
+    "Tesla": {
+        "Symbol": "", 
+        "Icon": "assets/companys/tesla.png"
+    }, 
+    "JP Morgan": {
+        "Symbol": "", 
+        "Icon": "assets/companys/jpm.png"
+    },
+    "First Republic Bank": {
+        "Symbol": "", 
+        "Icon": "assets/companys/firstrep.png"
+    }, 
+    "Bank of America": {
+        "Symbol": "", 
+        "Icon": "assets/companys/boa.png"
+    }, 
+    "Meta": {
+        "Symbol": "", 
+        "Icon": "assets/companys/meta.png"
+    }, 
+    "Microsoft": {
+        "Symbol": "", 
+        "Icon": "assets/companys/microsoft.png"
+    }, 
+    "Berkshire Hathaway": {
+        "Symbol": "", 
+        "Icon": "assets/companys/bh.png"
+    }, 
+    "Intel": {
+        "Symbol": "", 
+        "Icon": "assets/companys/intel.png"
+    }, 
+    "AMD": {
+        "Symbol": "", 
+        "Icon": "assets/companys/amd.png"
+    }, 
+    "IBM": {
+        "Symbol": "", 
+        "Icon": "assets/companys/ibm.png"
+    }, 
+    "BlackRock": {
+        "Symbol": "", 
+        "Icon": "assets/companys/br.png"
+    }, 
+    "Mercedes Benz Group": {
+        "Symbol": "", 
+        "Icon": "assets/companys/mercedes.png"
+    }, 
+    "Nike": {
+        "Symbol": "", 
+        "Icon": "assets/companys/nike.png"
+    }, 
+    "Netflix": {
+        "Symbol": "", 
+        "Icon": "assets/companys/netflix.png"
+    }, 
+    "Starbucks": {
+        "Symbol": "", 
+        "Icon": "assets/companys/starbucks.png"
+    }, 
+    "Siemens": {
+        "Symbol": "", 
+        "Icon": "assets/companys/siemens.png"
+    }, 
+    "Airbus": {
+        "Symbol": "", 
+        "Icon": "assets/companys/airbus.png"
+    }, 
+    "Boeing": {
+        "Symbol": "", 
+        "Icon": "assets/companys/boeing.png"
+    }
+}

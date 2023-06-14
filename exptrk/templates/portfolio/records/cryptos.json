@@ -1,0 +1,112 @@
+{
+    "Bitcoin": 
+    {
+        "Icon": "assets/cryptos/bitcoin.png", 
+        "Symbol": "BTC"
+    }, 
+    "Ethereum": 
+    {
+        "Icon": "assets/cryptos/ethereum.png", 
+        "Symbol": "ETH"
+    }, 
+    "Tether": 
+    {
+        "Icon": "assets/cryptos/tether.png", 
+        "Symbol": "USDT"
+    }, 
+    "USD Coin": 
+    {
+        "Icon": "assets/cryptos/usd.png", 
+        "Symbol": "USDC"
+    }, 
+    "XRP": 
+    {
+        "Icon": "assets/cryptos/xrp.png", 
+        "Symbol": "XRP"
+    }, 
+    "Cardano": 
+    {
+        "Icon": "assets/cryptos/cardano.png", 
+        "Symbol": "ADA"
+    }, 
+    "Dogecoin":
+    {
+        "Icon": "assets/cryptos/dogecoin.png", 
+        "Symbol": "DOGE"
+    }, 
+    "TRON": 
+    {
+        "Icon": "assets/cryptos/tron.png", 
+        "Symbol": "TRX"
+    }, 
+    "Solana": 
+    {
+        "Icon": "assets/cryptos/solana.png", 
+        "Symbol": "SOL"
+    }, 
+    "Litecoin": 
+    {
+        "Icon": "assets/cryptos/litecoin.png", 
+        "Symbol": "LTC"
+    }, 
+    "Polygon": 
+    {
+        "Icon": "assets/cryptos/polygon.png", 
+        "Symbol": "MATIC"
+    }, 
+    "Polkadot": 
+    {
+        "Icon": "assets/cryptos/polkadot.png", 
+        "Symbol": "DOT"
+    }, 
+    "Avalanche": 
+    {
+        "Icon": "assets/cryptos/avalanche.png", 
+        "Symbol": "AVAX"
+    }, 
+    "Chainlink": 
+    {
+        "Icon": "assets/cryptos/chainlink.png", 
+        "Symbol": "LINK"
+    }, 
+    "Shiba Inu": 
+    {
+        "Icon": "assets/cryptos/shiba-inu.png", 
+        "Symbol": "SHIB"
+    }, 
+    "Cosmos": 
+    {
+        "Icon": "assets/cryptos/cosmos.png", 
+        "Symbol": "ATOM"
+    }, 
+    "Stellar": 
+    {
+        "Icon": "assets/cryptos/stellar.png", 
+        "Symbol": "XLM"
+    }, 
+    "Bitcoin Cash":
+    {
+        "Icon": "assets/cryptos/bitcoin-cash.png", 
+        "Symbol": "BCH"
+    }, 
+    "NEAR Protocol": 
+    {
+        "Icon": "assets/cryptos/near.png", 
+        "Symbol": "NEAR"
+    }, 
+    "The Graph": 
+    {
+        "Icon": "assets/cryptos/the-graph.png", 
+        "Symbol": "GRT"
+    }, 
+    "Algorand": 
+    {
+        "Icon": "assets/cryptos/algorand.png", 
+        "Symbol": "ALGO"
+    }, 
+    "Fantom": 
+    {
+        "Icon": "assets/cryptos/fantom.png", 
+        "Symbol": "FTM"
+    }
+}
