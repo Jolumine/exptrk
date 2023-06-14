@@ -20,13 +20,16 @@ class Welcome_Interface(QDialog):
         self.root_folder = "./.data"
 
         self.main_label = QLabel(self)
-        self.main_label.setText("Before you go ahead and start You need to fill the Admin Login, \nwith which you can access the admin settings.")
+        self.main_label.setText("Create your profile, fill in the demanded information.")
 
         self.firstname = QLineEdit(self)
         self.firstname.setPlaceholderText("Firstname")
         
         self.lastname = QLineEdit(self)
         self.lastname.setPlaceholderText("Lastname")
+
+        self.birthday = QLineEdit(self)
+        self.birthday.setPlaceholderText("Birthday (MM/DD/YYYY)")
 
         self.company = QLineEdit(self)
         self.company.setPlaceholderText("Company")
@@ -39,12 +42,13 @@ class Welcome_Interface(QDialog):
         self.root.addWidget(self.main_label)
         self.root.addWidget(self.firstname)
         self.root.addWidget(self.lastname)
+        self.root.addWidget(self.birthday)
         self.root.addWidget(self.company)
         self.root.addWidget(self.cont)
 
         self.setWindowTitle("Welcome")
         self.setWindowIcon(QIcon("assets/settings.png"))
-        self.setGeometry(300, 300, 400, 450)
+        self.setGeometry(300, 300, 400, 350)
         self.setLayout(self.root)
 
     def closeEvent(self, e) -> None:
@@ -56,6 +60,7 @@ class Welcome_Interface(QDialog):
     def next(self):
         fname = self.firstname.text()
         lname = self.lastname.text()
+        bday = self.birthday.text()
         com = self.company.text()
 
         if fname == "" or lname == "": 
@@ -65,6 +70,7 @@ class Welcome_Interface(QDialog):
             user_data = {
                 "Firstname": fname, 
                 "Lastname": lname, 
+                "Birthday": bday,
                 "Company": com,
                 "Categorys": ["Rent", "Subscription", "Salary", "Repayment", "Purchase"],
                 "Expenses": {},

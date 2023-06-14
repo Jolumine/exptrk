@@ -8,6 +8,7 @@ from PyQt5.QtWidgets import QDialog, QLineEdit, QPushButton, QVBoxLayout
 from PyQt5.QtGui import QIcon
 
 from exptrk.utils.read_index import read_index
+from exptrk.utils.get_person_data import get_person_data
 
 import json
 
@@ -16,19 +17,19 @@ class Modify_Window(QDialog):
     def __init__(self, parent=None):
         super().__init__(parent)
 
-        self.file = read_index("user")
-
-        with open(self.file, "r") as f: 
-            parsed = json.load(f)
+        user = get_person_data()
     
         self.firstname = QLineEdit(self)
-        self.firstname.setText(parsed["Firstname"])
+        self.firstname.setText(user["Firstname"])
 
         self.lastname = QLineEdit(self)
-        self.lastname.setText(parsed["Lastname"])
+        self.lastname.setText(user["Lastname"])
+
+        self.bday = QLineEdit(self)
+        self.bday.setText(user["Birthday"])
 
         self.company = QLineEdit(self)
-        self.company.setText(parsed["Company"])
+        self.company.setText(user["Company"])
 
         self.apply = QPushButton("Apply changes")
         self.apply.setToolTip("Click to apply the changes on this user")
@@ -50,13 +51,15 @@ class Modify_Window(QDialog):
         firstname = self.firstname.text()
         lastname = self.lastname.text()
         company = self.company.text()
-
+        bday = self.bday.text()
+        
         with open(self.file, "r") as f: 
             data = json.load(f)
 
             data["Firstname"] = firstname
             data["Lastname"] = lastname
             data["Compnay"] = company
+            data["Birthday"] = bday
             f.close()
 
         with open(self.file, "w") as file:
